@@ -8,7 +8,7 @@ var router = express.Router();
 var redisMgr = require('../redis/redisMgr.js');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   res.render('index', { title: 'X-Face' });
 });
 
