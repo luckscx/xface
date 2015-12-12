@@ -425,6 +425,10 @@ var main = function(){
     });
 }
 
+var getStandard = function(organData){
+    return organData.face_profile[10].y - organData.left_eyebrow[2].y;
+}
+
 var getEyeData = function(organData,out){
     out.eye_weizhi = organData.left_eye[6].y - organData.left_eyebrow[2].y;
     out.eye_jianju = organData.right_eye[4].x - organData.left_eye[4].x;
@@ -503,11 +507,14 @@ if(require.main === module){
     //getFaceScore('./test_data/SCUT-FBP-4.jpg',1);
     //halfFaceJoint('./test_data/SCUT-FBP-4.jpg','./test_data/SCUT-FBP-22.jpg');
     var out = {};
-    getFaceData('./test_data/SCUT-FBP-4.jpg',out,function(err){
+    getFaceData('./test_data/gamerole.jpg',out,function(err){
         if(err){
             console.log(err);
         }         
         else{
+            for(key in out){
+                out[key] /= out.xiaba_weizhi;
+            }
             console.log(out);
             fd = fs.openSync('res.dat',"w");
             fs.writeSync(fd,JSON.stringify(out));

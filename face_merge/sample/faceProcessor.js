@@ -406,14 +406,14 @@ var globalMethod = {
     nose:1
 };
 
-var main = function(){
+var mergeFace = function(faceArray,method,savePath,cb){
     async.waterfall([
         function(callback){
-            _processFace(globalFaceArray,callback);
+            _processFace(faceArray,callback);
         },
         function(callback){
             console.log('start composition');
-            composition(globalFaceArray,'./composition.jpg',globalMethod,callback);
+            composition(faceArray,savePath,method,callback);
         }
     ],function(err){
         if(err){
@@ -422,11 +422,17 @@ var main = function(){
         else{
             console.log('success');
         }
+        cb(err);
     });
 }
+
+exports.mergeFace = mergeFace;
 
 if(require.main === module){
     //main();
     //getFaceScore('./test_data/SCUT-FBP-4.jpg',1);
-    halfFaceJoint('./test_data/SCUT-FBP-4.jpg','./test_data/SCUT-FBP-22.jpg');
+    //halfFaceJoint('./test_data/SCUT-FBP-4.jpg','./test_data/SCUT-FBP-22.jpg');
+    mergeFace(globalFaceArray,globalMethod,'..compositon.jpg',function(){
+        console.log('callback');
+    });
 }
