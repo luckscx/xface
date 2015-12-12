@@ -1,0 +1,46 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=yes">
+    <link rel="stylesheet" type="text/css" href="../css/cropper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css">
+    <script type="text/javascript" src="../js/lib/jquery-1.11.1.min.js"></script>
+    <!-- <script type="text/javascript" src="js/lrz.mobile.min.js"></script> -->
+    <script type="text/javascript" src="../js/lib/imagecropper/lrz.all.bundle.js"></script>
+    <script type="text/javascript" src="../js/lib/imagecropper/cropper.min.js"></script>
+    <script type="text/javascript" src="../js/uploadController.js"></script>
+</head>
+
+<body>
+    <div id="showResult">
+        <div style="width: 50%;margin: 0 auto;margin-top: 10px;">
+            <input id="image1" type="file" accept="image/*" capture="camera" />
+            <input id="image2" type="file" accept="image/*" capture="camera" />
+        </div>
+        <div style="width: 80%;margin: 0 auto;margin-top: 10px;">
+            <div id='elapsedTime' style="margin-bottom: 10px"></div>
+            <p id='zipResult'></p>
+            <div id='ua'></div>
+        </div>
+        <div id="changeAvatar" style="margin-top: 35px;">
+            <img src="" style="width: 100px;margin-top: 10px;margin: 0 auto;display:block;">
+            <img src="" style="width: 100px;margin-top: 10px;margin: 0 auto;display:block;">
+        </div>
+        <div style="margin-top: 35px; text-align:center">
+            <button id="submit">submit</button>
+        </div>
+    </div>
+    <div id="showEdit" style="display: none;width:100%;height: 100%;position: absolute;top:0;left: 0;z-index: 9;">
+        <div style="width:100%;position: absolute;top:10px;left:0px;">
+            <button class="mui-btn" data-mui-style="fab" id='cancleBtn' style="margin-left: 10px;">取消</button>
+            <button class="mui-btn" data-mui-style="fab" data-mui-color="primary" id='confirmBtn' style="float:right;margin-right: 10px;">确定</button>
+        </div>
+        <div id="report">
+            <!-- <img src="mei.jpg" style="width: 300px;height:300px"> -->
+        </div>
+    </div>
+</body>
+
+</html>
