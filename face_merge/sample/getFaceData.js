@@ -507,7 +507,7 @@ if(require.main === module){
     //getFaceScore('./test_data/SCUT-FBP-4.jpg',1);
     //halfFaceJoint('./test_data/SCUT-FBP-4.jpg','./test_data/SCUT-FBP-22.jpg');
     var out = {};
-    getFaceData('./test_data/gamerole.jpg',out,function(err){
+    getFaceData('./test_data/SCUT-FBP-4.jpg',out,function(err){
         if(err){
             console.log(err);
         }         
