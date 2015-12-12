@@ -18,17 +18,37 @@
     background: url('../images/list/kuang-16.png') no-repeat;
     width: 2em;
     height: 2em;
-    top: 8em;
-    left: 9em;
-}
-.img-itemb {
-    position: absolute;
-    background: url('../images/list/kuang-16.png') no-repeat;
-    width: 2em;
-    height: 2em;
-    top: 8em;
-    right: 2em;
+    top: -1.5em;
+    left: 7.6em;
 }
 .img-item .cur{
     background: url('../images/list/select.png') no-repeat;
+}
+.btn {
+    position: fixed;
+    background-color: #444444;
+    width: 100%;
+    bottom: 0em;
+    height: 2em;
+}
+.sbm {
+    background: url('../images/list/import.png') no-repeat;
+    background-size: 100% 100%;
+    border-radius: 6px;
+    float: right;
+    margin-right: 12px;
+    width: 6.5em;
+    height: 2em;
+    max-width: 6.5em;
+    max-height: 2em;
+}
+.cnl {
+    background: url('../images/list/cancel.png') no-repeat;
+    background-size: 100% 100%;
+    border-radius: 6px;
+    float: left;
+    width: 6.5em;
+    height: 2em;
+    max-width: 6.5em;
+    max-height: 2em;
 }
