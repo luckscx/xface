@@ -8,7 +8,11 @@ var fs = require('fs');
 
 var imgfile = {};
 
-var uploadDir = './public/upload';
+var uploadDir = path.join(__dirname + '/../public/');
+
+
+console.log(uploadDir);
+console.log(uploadDir.length);
 
 if(!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
@@ -27,9 +31,9 @@ function pad(num, size) {
 imgfile.newFile = function(cb) {
     redisMgr.incr(pic_index_key,function(err,val) {
         if (!err && val > 0) {
-            var fileName = util.format('%s.jpg',pad(val,5));
+            var fileName = util.format('upload/%s.jpg',pad(val,5));
             console.log(fileName);
-            var saveFile = path.join(uploadDir,fileName);
+            var saveFile = imgfile.fullname(fileName);
             cb(null,saveFile);
         }else{
             console.error('redis error');
@@ -37,6 +41,15 @@ imgfile.newFile = function(cb) {
         }
         
     });
+};
+
+imgfile.getName = function(fullname) {
+    return fullname.slice(uploadDir.length,-1);
+};
+
+imgfile.fullname = function(frontname) {
+    var fullname = path.join(uploadDir,frontname);
+    return fullname;
 };
 
 module.exports = imgfile;
