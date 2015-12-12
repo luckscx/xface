@@ -21,7 +21,4 @@ $(document).ready(function(){
             }
         }); 
     })
-    $('.cnl').click(function(){
-        //todo
-    })
 })
