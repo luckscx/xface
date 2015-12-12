@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var server = require('http').Server(app);
 
+require('debug-trace')({ always: true});
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var route_socket = require('./routes/socket');

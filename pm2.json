@@ -1,0 +1,14 @@
+{
+  "apps" : [{
+    // Application #1
+    "name"        : "app",
+    "script"      : "bin/www",
+    "args"        : [],
+    "watch"       : false,
+    "ignore_watch": ["public"],
+    "node_args"   : "",
+    "merge_logs"  : true,
+    "error_file"  : "logs/app.error",
+    "out_file"    : "logs/app.log"
+  }]
+}
