@@ -26,7 +26,7 @@ var _resizeOrgan = function(src,target){
     var imageTarget = images(target);
     imageSrc.resize(imageTarget.width(),imageTarget.height());
     return imageSrc;
-}
+};
 
 var _getOrgans = function(imgPath,cb){
     console.log("getOrgans "+imgPath);
@@ -39,7 +39,7 @@ var _getOrgans = function(imgPath,cb){
         fs.mkdirSync(dstPath);
     }
     youtu.faceshape(imgPath,1,function(res){
-        if(res.data.errorcode != 0){
+        if(parseInt(res.data.errorcode) !== 0){
             cb(res.data.errormsg);
             return;
         }
@@ -51,7 +51,7 @@ var _getOrgans = function(imgPath,cb){
             cb(err);
         });
     });
-}
+};
 
 // 人脸比对 测试
 //youtu.facecompare('a.jpg', 'a.jpg', function(data){
@@ -124,7 +124,7 @@ var _minAndMax = function(arr){
     res.max = max;
     res.min = min;
     return res;
-}
+};
 
 var _getRect = function(obj){
     var x=[];
@@ -134,18 +134,18 @@ var _getRect = function(obj){
         y[i] = obj[i].y;
     }
     var tmp = _minAndMax(x);
-    minX = tmp.min;
-    maxX = tmp.max;
-    var tmp = _minAndMax(y);
-    minY = tmp.min;
-    maxY = tmp.max;
+    var minX = tmp.min;
+    var maxX = tmp.max;
+    tmp = _minAndMax(y);
+    var minY = tmp.min;
+    var maxY = tmp.max;
     var rect = {};
     rect.x = minX;
     rect.y = minY;
     rect.width = maxX - minX;
     rect.height = maxY - minY;
     return rect;
-}
+};
 
 /*
 var getLeftEye = function(){
@@ -257,7 +257,7 @@ var _getPartofFace = function(res,srcPath,dstPath,suffix,organ,cb){
             cb(err);
         }   
     );
-}
+};
 
 
 var _processOneFace = function(face,cb){
@@ -265,7 +265,7 @@ var _processOneFace = function(face,cb){
         cb(face+" is not exists!");
     }
     _getOrgans(face,cb);
-}
+};
 
 var _processFace = function(faceArray,cb){
     faceObjectArray = {};
@@ -274,7 +274,7 @@ var _processFace = function(faceArray,cb){
     },function(err){
         cb(err);
     });
-}
+};
 
 
 var composition = function(faceArray,savePath,method,cb){
@@ -293,7 +293,7 @@ var composition = function(faceArray,savePath,method,cb){
     selfIndex = method.base;
     base = images(faceArray[method.base]);
     
-    for(organ in method){
+    for(var organ in method){
         var selfOrgan,otherOrgan;
         if(organ === 'base' || organ.length === 0 || method[organ] === selfIndex){
             continue;
@@ -310,14 +310,14 @@ var composition = function(faceArray,savePath,method,cb){
             return;
         }
         var rect =  _getRect(faceObjectArray[name[selfIndex]][organ]);
-        var selfOrgan = images(selfPath);
-        var otherOrgan = images(otherPath);
+        selfOrgan = images(selfPath);
+        otherOrgan = images(otherPath);
         otherOrgan.resize(selfOrgan.width(),selfOrgan.height());
         base.draw(otherOrgan,rect.x,rect.y);
     }
     base.save(savePath,{quality:100});
     cb();
-}
+};
 
 var getFaceScore = function(imgPath,cb){
     youtu.detectface(imgPath,1,function(res){
@@ -392,7 +392,7 @@ var halfFaceJoint = function(face0,face1,cb){
             console.log('success');
         }
     });
-}
+};
 
 var globalFaceArray = ['./test_data/SCUT-FBP-22.jpg','./test_data/SCUT-FBP-4.jpg'];
 
@@ -424,9 +424,10 @@ var mergeFace = function(faceArray,method,savePath,cb){
         }
         cb(err);
     });
-}
+};
 
-exports.mergeFace = mergeFace;
+module.exports = mergeFace;
+
 
 if(require.main === module){
     //main();
