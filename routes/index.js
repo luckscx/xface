@@ -6,6 +6,7 @@ var util = require('util');
 var formidable = require('formidable');
 var router = express.Router();
 var redisMgr = require('../redis/redisMgr.js');
+var mail = require('../interface/mail.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -13,7 +14,7 @@ router.get('/', function(req, res) {
 });
 
 
-var uploadDir = './upload';
+var uploadDir = './public/upload';
 
 if(!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
@@ -29,7 +30,7 @@ function pad(num, size) {
 
 var pic_index_key = 'PIC_INDEX';
 
-router.post('/uploadpic', function(req, res) {
+router.post('/n/uploadpic', function(req, res) {
     console.log('get pic upload req');
     var data = req.body.picfile;
     var base64Data = req.body.picfile.replace(/^data:image\/jpeg;base64,/, "");
@@ -47,6 +48,19 @@ router.post('/uploadpic', function(req, res) {
             res.end();
         }
     });
+});
+
+
+router.post('/n/do',function(req,res) {
+    var filename = req.body.picfile; 
+    var address = req.body.mailAddress;
+
+    //call claude function 
+    //get dat file name
+    mail(address,filename);
+    res.send('ok');
+    res.end();
+    
 });
 
 module.exports = router;
