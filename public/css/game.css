@@ -1,0 +1,34 @@
+.pic {
+    width: 100%;
+    height: 13em;
+    text-align: center;
+    margin-top: 1em;
+}
+.pic img {
+    width: 60%;
+    height: 100%;
+    margin: 0.5em 0;
+}
+.ans {
+    width: 80%;
+    margin-top: 0.2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+.opt div {
+    width: 35%;
+    border: 1px solid;
+    border-color: #dedede;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    display: inline-block;
+}
+.result {
+    width: 100%;
+    text-align: center;
+    margin-top: 1em;
+}
+.result img {
+    width: 4em;
+    height: 4em;
+ }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<script src="/js/socket.io.js"></script>
+<script>
+var socket = io.connect('http://10.1.163.59:8080');
+socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data'  });
+
+});
+</script>
+<head>
+    <title>Title Here</title>
+</head>
+<body>
+    <p>Hello World</p>
+</body>
+</html>
+

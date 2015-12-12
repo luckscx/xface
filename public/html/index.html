@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
-<script src="/js/socket.io.js"></script>
-<script>
-var socket = io.connect('http://10.1.163.59:8080');
-socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data'  });
-
-});
-</script>
 <head>
-    <title>Title Here</title>
+    <title>XFACE</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0;">
+    <link rel="stylesheet" href="../css/index.css"/>
 </head>
 <body>
-    <p>Hello World</p>
+<div class="page">
+    <div class="content">
+        <a href="game.html">
+            <button class="btn">玩游戏</button>
+        </a>
+    </div>
+    <div class="content second">
+        <a href="upload.html">
+            <button class="btn">人脸融合</button>
+        </a>
+    </div>
+</div>
+</div>
 </body>
 </html>
-

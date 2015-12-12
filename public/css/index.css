@@ -1,0 +1,22 @@
+.page {
+    position: absolute;
+    top: 50%;
+    margin-top: -6em;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+.content {
+    text-align: center;
+}
+.btn {
+    font-size: 2em;
+    width: 80%;
+    text-align: center;
+    padding: 0.5em 0;
+    background-color: white;
+    border: 1px solid #dedede;
+}
+.second {
+    margin-top: 2em;
+}

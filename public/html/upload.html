@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XFACE</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0;">
+    <link rel="stylesheet" href="../css/upload.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/cropper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css">
+    <script type="text/javascript" src="../js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../js/lib/imagecropper/lrz.all.bundle.js"></script>
+    <script type="text/javascript" src="../js/lib/imagecropper/cropper.min.js"></script>
+    <script type="text/javascript" src="../js/uploadController.js"></script>
+</head>
+<body>
+<div>
+    <div class="upload">
+        <span class="item first">
+            <p>上传图片1</p>
+            <div class="upbtn" data-i="1"></div>
+        </span>
+        <span class="item">
+            <p>上传图片2</p>
+            <div class="upbtn" data-i="2"></div>
+        </span>
+    </div>
+    <div class="submit">
+        <span>见证奇迹</span>
+    </div>
+</div>
+<div class="pop" style="display: none">
+    <div class="popdiv">
+        <div class="selectbtn" id="cam" style="display:none">拍照</div>
+        <input class="selectbtn" id="image" type="file" accept="image/*" capture="camera" />
+        <div class="last" id="star">选个明星来匹配</div>
+    </div>
+</div>
+    <div id="showEdit" style="display: none;width:100%;height: 100%;position: absolute;top:0;left: 0;z-index: 9;">
+        <div style="width:100%;position: absolute;top:10px;left:0px;">
+            <button class="mui-btn" data-mui-style="fab" id='cancleBtn' style="margin-left: 10px;">取消</button>
+            <button class="mui-btn" data-mui-style="fab" data-mui-color="primary" id='confirmBtn' style="float:right;margin-right: 10px;">确定</button>
+        </div>
+        <div id="report">
+            <!-- <img src="mei.jpg" style="width: 300px;height:300px"> -->
+        </div>
+    </div>
+</body>
+</html>
