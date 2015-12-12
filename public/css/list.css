@@ -1,0 +1,34 @@
+.img-line {
+    width: 100%;
+    text-align: center;
+}
+.img-item {
+    position: relative;
+    width: 10em;
+    height: 10em;
+    overflow: hidden;
+    text-align: center;
+}
+.img-item img {
+    width: 10em;
+    height: 10em;
+}
+.img-itema {
+    position: absolute;
+    background: url('../images/list/kuang-16.png') no-repeat;
+    width: 2em;
+    height: 2em;
+    top: 8em;
+    left: 9em;
+}
+.img-itemb {
+    position: absolute;
+    background: url('../images/list/kuang-16.png') no-repeat;
+    width: 2em;
+    height: 2em;
+    top: 8em;
+    right: 2em;
+}
+.img-item .cur{
+    background: url('../images/list/select.png') no-repeat;
+}

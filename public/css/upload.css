@@ -3,11 +3,8 @@
     width: 12em;
     overflow: hidden;
     margin: 0 auto;
-}
-.upbtn {
-    width: 5em;
-    height: 5em;
-    border: 1px dotted #dedede;
+    height: 25em;
+    width: 80%;
 }
 .item {
     text-align: center;
