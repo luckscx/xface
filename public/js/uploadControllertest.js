@@ -6,7 +6,7 @@ $(document).ready(function(){
     $('#submit').on('click', function(){
         var image = $('#changeAvatar img').eq(0).attr('src');
         $.ajax({
-            url: 'http://10.1.163.59:8080/uploadpic',
+            url: 'n/uploadpic',
             type: 'POST',
             //dataType: 'jsonp',
             //contentType: "multipart/form-data; charset=utf-8",
@@ -56,8 +56,8 @@ $(document).ready(function(){
             zoom: -0.2,
             checkImageOrigin: true,
             background: false,
-            minContainerHeight: 400,
-            minContainerWidth: 300
+            minContainerHeight: 600,
+            minContainerWidth: 400
         });
     }
 

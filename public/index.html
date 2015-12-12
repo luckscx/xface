@@ -6,20 +6,41 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0;">
     <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/cropper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css">
+    <script type="text/javascript" src="../js/lib/jquery-1.11.1.min.js"></script>
+    <!-- <script type="text/javascript" src="js/lrz.mobile.min.js"></script> -->
+    <script type="text/javascript" src="../js/lib/imagecropper/lrz.all.bundle.js"></script>
+    <script type="text/javascript" src="../js/lib/imagecropper/cropper.min.js"></script>
+    <script type="text/javascript" src="../js/uploadControllertest.js"></script>
 </head>
 <body>
 <div class="page">
     <div class="content">
-        <a href="game.html">
-            <button class="btn">玩游戏</button>
+        <a href="list.html">
+            <button class="btn">明星脸</button>
+        </a>
+    </div>
+    <div class="content second">
+        <a href="javascript:;" id="image1" class="file">
+            <input class="btn" type="file" val="我的脸"></input>
         </a>
     </div>
     <div class="content second">
         <a href="upload.html">
-            <button class="btn">人脸融合</button>
+            <button class="btn">我的明星脸</button>
         </a>
     </div>
 </div>
 </div>
+    <div id="showEdit" style="display: none;width:100%;height: 100%;position: absolute;top:0;left: 0;z-index: 9;">
+<div style="width:100%;position: absolute;top:10px;left:0px;">
+    <button class="mui-btn" data-mui-style="fab" id='cancleBtn' style="margin-left: 10px;">取消</button>
+    <button class="mui-btn" data-mui-style="fab" data-mui-color="primary" id='confirmBtn' style="float:right;margin-right: 10px;">确定</button>
+</div>
+<div id="report">
+    <!-- <img src="mei.jpg" style="width: 300px;height:300px"> -->
+</div>
+    </div>
 </body>
 </html>
