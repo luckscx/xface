@@ -5,8 +5,8 @@ var path = require('path');
 var util = require('util');
 var formidable = require('formidable');
 var router = express.Router();
-var redisMgr = require('../redis/redisMgr.js');
 var mail = require('../interface/mail.js');
+var imgfile = require('../interface/imgfile.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -14,33 +14,16 @@ router.get('/', function(req, res) {
 });
 
 
-var uploadDir = './public/upload';
-
-if(!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir);
-} 
-
-function pad(num, size) {
-    var s = num+"";
-    while (s.length < size){
-        s = "0" + s;
-    }
-    return s;
-}
-
-var pic_index_key = 'PIC_INDEX';
-
 router.post('/n/uploadpic', function(req, res) {
     console.log('get pic upload req');
     var data = req.body.picfile;
     var base64Data = req.body.picfile.replace(/^data:image\/jpeg;base64,/, "");
-    redisMgr.incr(pic_index_key,function(err,val) {
-        if (!err && val > 0) {
-            var fileName = util.format('%s.jpg',pad(val,5));
+    imgfile.newFile(function(err,fileName) {
+        if (!err) {
             console.log(fileName);
-            var saveFile = path.join(uploadDir,fileName);
-            fs.writeFile(saveFile,base64Data,'base64',function(err) {
-                res.send(fileName);
+            fs.writeFile(fileName,base64Data,'base64',function(err) {
+                var frontName = fileName.slice(8,-1);
+                res.send(frontName);
                 res.end();
             });
         }else{
@@ -48,6 +31,17 @@ router.post('/n/uploadpic', function(req, res) {
             res.end();
         }
     });
+});
+
+
+router.post('/n/merge',function(req,res) {
+
+    //call claude function 
+    //get dat file name
+    mail(address,filename);
+    res.send('ok');
+    res.end();
+    
 });
 
 
