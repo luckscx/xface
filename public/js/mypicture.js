@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    pop.addCSS();
     var bImmediatery = true; 
     $('.do').click(function(){
         var image = $('.img img').eq(0).attr('src');
@@ -118,7 +117,7 @@ $(document).ready(function(){
             data: {
                 face1: $('.show img').attr('data-s'),
                 browIdx: $('.position .p1').attr('data-i') == "" ? 0: $('.position .p1').attr('data-i'),
-                eveIdx: $('.position .p2').attr('data-i') == "" ? 0: $('.position .p2').attr('data-i'),
+                eyeIdx: $('.position .p2').attr('data-i') == "" ? 0: $('.position .p2').attr('data-i'),
                 mouthIdx: $('.position .p3').attr('data-i') == ''? 0: $('.position .p3').attr('data-i')
             },
             success: function(json){
@@ -139,7 +138,7 @@ $(document).ready(function(){
             $('.p2cur').removeClass('p2cur');
             $('.p3cur').removeClass('p3cur');
             $('.show img').attr('src', $('.show img').attr('data-s'));
-        } else if(index == 2) {
+        } else if(index == 1) {
             merge(function(url){
                 showMergeResult(url);
             });
@@ -298,6 +297,12 @@ $(document).ready(function(){
         $('.img .show').hide();
         $('.img .show img').attr('src', '');
         $('.btn span').removeClass('enable');
+        $('.btn').show();
+        $('.merge').hide();
+        $('.list span').removeClass('cur');
+        $('.position span').attr('data-i', '');
+        $('.position span').removeClass('p1cur').removeClass('p2cur').removeClass('p3cur');
+        $('.transfer').hide();
         return false;
     })
     function showResult(tType, type){
