@@ -1,3 +1,10 @@
+.ptitle {
+    text-align: center;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    background-color: #eb458f;
+}
 .img-list {
     margin-bottom: 2em;
 }
@@ -29,7 +36,7 @@
 }
 .btn {
     position: fixed;
-    background-color: #444444;
+    background-color: #b5b5b7;
     width: 100%;
     bottom: 0em;
     height: 2em;
