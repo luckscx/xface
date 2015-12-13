@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('.img-item img').click(function(){
+    $('.img-item img, .img-item a').click(function(){
         if($(this).parent().find('a').hasClass('cur')) {
             $(this).parent().find('a').removeClass('cur');
         } else {
