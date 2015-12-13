@@ -23,6 +23,7 @@ $(document).ready(function(){
                 }
             }
         })
+        return false;
     })
     $('.pic2').click(function(){
         var image = $('.img img').eq(0).attr('src');
@@ -33,6 +34,7 @@ $(document).ready(function(){
         $('.title').text('效果图');
         $('.merge').show();
         $('.btn').hide();
+        return false;
     })
     $('.list span').click(function(){
         $(this).addClass('cur').siblings().removeClass('cur');
@@ -54,6 +56,7 @@ $(document).ready(function(){
                     break;
             }
         }
+        return false;
     });
     $('.position span').click(function(){
         if(checkSelected()) {
@@ -106,6 +109,7 @@ $(document).ready(function(){
                     break;
             }
         }
+        return false;
     })
     function merge(callback){
         $.ajax({
@@ -140,6 +144,7 @@ $(document).ready(function(){
                 showMergeResult(url);
             });
         }
+        return false;
     })
     function showMergeResult(url){
         $('.merge').hide();
@@ -204,6 +209,7 @@ $(document).ready(function(){
     $('#cancleBtn').on('click', function() {
         $("#showEdit").fadeOut();
         $('#showResult').fadeIn();
+        return false;
     });
 
     $('#confirmBtn').on('click', function() {
@@ -229,6 +235,7 @@ $(document).ready(function(){
                 }
             }
         })
+        return false;
     });
 
     function cutImg(type) {
@@ -291,6 +298,7 @@ $(document).ready(function(){
         $('.img .show').hide();
         $('.img .show img').attr('src', '');
         $('.btn span').removeClass('enable');
+        return false;
     })
     function showResult(tType, type){
         var url = location.href;
