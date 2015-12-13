@@ -12,10 +12,10 @@ var options = {
         user : 'luck_scx@sohu.com',
         pass : 'aa123456'
     }
-}
+};
 
 
-var transporter = nodemailer.createTransport(smtpTransport(options))
+var transporter = nodemailer.createTransport(smtpTransport(options));
 
 
 // NB! No need to recreate the transporter object. You can use
@@ -41,15 +41,20 @@ var sendmail = function(recv_list,data_name) {
     var attfile = {
         filename : data_name,
         path : '/data/grissom/xface/datdir' + data_name
-    }
+    };
     mailOptions.attachments = [];
     mailOptions.attachments.push(attfile);
 
 
     transporter.sendMail(mailOptions, function(error, info){
-        console.log(1111);
         if(error){
-            return console.log(error);
+            console.log(error);
+            transporter.sendMail(mailOptions,function(err1) {
+                if (err1) {
+                    console.log('failed second time');
+                }
+            });
+            return;
         }else{
             console.log(info);
         }
