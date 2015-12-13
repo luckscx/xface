@@ -4,11 +4,12 @@
     "name"        : "app",
     "script"      : "bin/www",
     "args"        : [],
-    "watch"       : false,
-    "ignore_watch": ["public"],
+    "max_restarts" : 3, // defaults to 15
+    "watch"       : true,
+    "ignore_watch": ["public","node_modules"],
     "node_args"   : "",
     "merge_logs"  : true,
-    "error_file"  : "logs/app.error",
-    "out_file"    : "logs/app.log"
+    "error_file"  : "/data1/logs/app.error",
+    "out_file"    : "/data1/logs/app.log"
   }]
 }
