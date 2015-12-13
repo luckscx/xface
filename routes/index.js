@@ -7,7 +7,9 @@ var formidable = require('formidable');
 var router = express.Router();
 var mail = require('../interface/mail.js');
 var imgfile = require('../interface/imgfile.js');
-var faceMerge = require('../face_merge/sample/faceProcessor');
+//var niubiFace = require('../face_merge/sample/faceProcessor.js');
+var niubiFace = require('../face_merge/sample/faceProcessor.js');
+var msg = require('../interface/msg');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -17,20 +19,29 @@ router.get('/', function(req, res) {
 
 router.post('/n/uploadpic', function(req, res) {
     console.log('get pic upload req');
-    var data = req.body.picfile;
-    var base64Data = req.body.picfile.replace(/^data:image\/jpeg;base64,/, "");
+    var data = req.body.filename;
+    if (!data) {
+        msg.wrapper(73,null,res);
+        return;
+    }
+    var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
     imgfile.newFile(function(err,fileName) {
+        var frontName = '';
         if (!err) {
+            frontName = imgfile.getName(fileName);
             console.log(fileName);
             fs.writeFile(fileName,base64Data,'base64',function(err) {
-                var frontName = imgfile.getName(fileName);
                 console.log(frontName);
-                res.send(frontName);
-                res.end();
+                niubiFace.checkFace(fileName,function(err) {
+                    if (!err) {
+                        msg.wrapper(err,frontName,res);
+                    }else{
+                        msg.wrapper(1,err,res);
+                    }
+                });
             });
         }else{
-            res.send('error');
-            res.end();
+            msg.wrapper(-1,null,res);
         }
     });
 });
@@ -63,7 +74,7 @@ router.post('/n/merge',function(req,res) {
 
     imgfile.newFile(function(err,fileName) {
         console.log(fileName);
-        faceMerge([face1,face2],choose,fileName,function(err) {
+        niubiFace.mergeFace([face1,face2],choose,fileName,function(err) {
             if (!err) {
                 var frontName = imgfile.getName(fileName);
                 console.log(frontName);
