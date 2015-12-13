@@ -50,7 +50,7 @@ $(document).ready(function(){
     function showResult(tType, type){
         var url = location.href;
         if(type == 1) {
-            url = 'index.html';
+            url = 'fchose.html';
         }
         location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
     }
