@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    jQuery('body').click(function(){
+    $('body').tap(function(){
         location.href = '/fchose.html';
     });
 });
