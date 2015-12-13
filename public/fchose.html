@@ -18,11 +18,15 @@
 </div>
 </body>
     <script>
-        $('#list_btn').tap(function(){
-            location.href = '/list.html';
-        });
-        $('#pic_btn').tap(function(){
-            location.href = '/mypicture.html';
-        });
+        $(document).ready(function(){
+            setTimeout(function(){
+                $('#list_btn').tap(function(){
+                    location.href = '/list.html';
+                });
+                $('#pic_btn').tap(function(){
+                    location.href = '/mypicture.html';
+                });
+            },500);
+        })
     </script>
 </html>
