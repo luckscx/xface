@@ -139,9 +139,7 @@ $(document).ready(function(){
             $('.p3cur').removeClass('p3cur');
             $('.show img').attr('src', $('.show img').attr('data-s'));
         } else if(index == 1) {
-            merge(function(url){
                 showMergeResult(url);
-            });
         }
         return false;
     })
