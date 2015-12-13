@@ -69,11 +69,6 @@ $(document).ready(function(){
                     }else{
                         $ele.addClass('p1cur');
                         $ele.attr('data-i', $('.list .cur').attr('data-i')); 
-                        if(bImmediatery) {
-                            merge(function(url){
-                                $('.show img').attr('src', url);
-                            });           
-                        }
                     }
                     break;
                 case 1:
@@ -83,11 +78,6 @@ $(document).ready(function(){
                     }else{
                         $ele.addClass('p2cur');
                         $ele.attr('data-i', $('.list .cur').attr('data-i')); 
-                        if(bImmediatery) {
-                            merge(function(url){
-                                $('.show img').attr('src', url);
-                            });           
-                        }
                     }
                     break;
                 case 2:
@@ -97,15 +87,15 @@ $(document).ready(function(){
                     }else{
                         $ele.addClass('p3cur');
                         $ele.attr('data-i', $('.list .cur').attr('data-i')); 
-                        if(bImmediatery) {
-                            merge(function(url){
-                                $('.show img').attr('src', url);
-                            });           
-                        }
                     }
                     break;
                 default:
                     break;
+            }
+            if(bImmediatery) {
+                merge(function(url){
+                    $('.show img').attr('src', url);
+                });           
             }
         }
         return false;
@@ -139,7 +129,8 @@ $(document).ready(function(){
             $('.p3cur').removeClass('p3cur');
             $('.show img').attr('src', $('.show img').attr('data-s'));
         } else if(index == 1) {
-                showMergeResult(url);
+            var url = $('.show img').attr('src');
+            showMergeResult(url);
         }
         return false;
     })
