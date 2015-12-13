@@ -10,7 +10,7 @@ var imgfile = require('../interface/imgfile.js');
 //var niubiFace = require('../face_merge/sample/faceProcessor.js');
 var niubiFace = require('../face_merge/sample/faceProcessor.js');
 var getFaceData = require('../face_merge/sample/getFaceData.js');
-//var adapt = require('../interface/adapt.js');
+var adapt = require('../interface/adapt.js');
 var msg = require('../interface/msg');
 
 /* GET home page. */
@@ -51,7 +51,7 @@ router.post('/n/uploadpic', function(req, res) {
 
 
 //图像融合
-router.post('/n/merge',function(req,res) {
+router.post('/n/merge_old',function(req,res) {
     console.log(req.body);
     var face1 = req.body.face1;
     var face2 = req.body.face2;
@@ -61,6 +61,7 @@ router.post('/n/merge',function(req,res) {
 
     if (!face1 || !face2) {
         res.end('need params');
+        msg.wrapper(73,null,res);
         return;
     }
 
@@ -107,6 +108,43 @@ router.post('/n/merge',function(req,res) {
             var frontName = '';
             if (!err) {
                 frontName = imgfile.getName(fileName);
+                msg.wrapper(err,frontName,res);
+            }else{
+                msg.wrapper(2,frontName,res);
+            }
+        });
+    });
+});
+
+router.post('/n/merge',function(req,res) {
+    
+    console.log(req.body);
+    var face1 = req.body.face1;
+    var browIdx = req.body.browIdx;
+    var eyeIdx = req.body.eyeIdx;
+    var mouthIdx = req.body.mouthIdx;
+
+    if (!face1) {
+        console.log(1111);
+        msg.wrapper(73,null,res);
+        return;
+    }
+
+    var organArray = adapt(browIdx,eyeIdx,mouthIdx);
+
+    if (!organArray) {
+        msg.wrapper(73,null,res);
+        return ;
+    }
+
+    face1 = imgfile.fullname(face1);
+
+    imgfile.newFile(function(err,distName) {
+        console.log(distName);
+        niubiFace.mergeOrgan(organArray,face1,distName,function(err) {
+            var frontName = '';
+            if (!err) {
+                frontName = imgfile.getName(distName);
                 msg.wrapper(err,frontName,res);
             }else{
                 msg.wrapper(2,frontName,res);

@@ -1,62 +1,102 @@
 /* jshint node:true*/
 "use strict";
+var path = require('path');
 
 
-var starDB = {
-    'upload/D0001.jpg' : {
-        left_eyebrow : 'faked/D0001_left_eyebrow.jpg',
-        right_eyebrow : 'faked/D0001_right_eyebrow.jpg',
-        left_eye : 'faked/D0001_left_eye.jpg',
-        right_eye : 'faked/D0001_right_eye.jpg'
-        mouth : 'faked/D0001_mouth.jpg'
+var browDB = {
+    '1' : {
+        left_eyebrow : 'test_data/left_eyebrow.png',
+        right_eyebrow : 'test_data/right_eyebrow.png',
     },
-    'upload/D0002.jpg' : {
-        left_eyebrow : 'faked/D0002_left_eyebrow.jpg',
-        right_eyebrow : 'faked/D0002_right_eyebrow.jpg',
-        left_eye : 'faked/D0002_left_eye.jpg',
-        right_eye : 'faked/D0002_right_eye.jpg'
-        mouth : 'faked/D0002_mouth.jpg'
+    '2' : {
+        left_eyebrow : 'test_data/left_eyebrow.png',
+        right_eyebrow : 'test_data/right_eyebrow.png',
     },
-    'upload/D0003.jpg' : {
-        left_eyebrow : 'faked/D0003_left_eyebrow.jpg',
-        right_eyebrow : 'faked/D0003_right_eyebrow.jpg',
-        left_eye : 'faked/D0003_left_eye.jpg',
-        right_eye : 'faked/D0003_right_eye.jpg'
-        mouth : 'faked/D0003_mouth.jpg'
+    '3' : {
+        left_eyebrow : 'test_data/left_eyebrow.png',
+        right_eyebrow : 'test_data/right_eyebrow.png',
+    },
+    '4' : {
+        left_eyebrow : 'test_data/left_eyebrow.png',
+        right_eyebrow : 'test_data/right_eyebrow.png',
+    },
+}
+
+var eyeDB = {
+    '1' : {
+        left_eye : 'test_data/left_eye.png',
+        right_eye : 'test_data/right_eye.png',
+    },
+    '2' : {
+        left_eye : 'test_data/left_eye.png',
+        right_eye : 'test_data/right_eye.png',
+    },
+    '3' : {
+        left_eye : 'test_data/left_eye.png',
+        right_eye : 'test_data/right_eye.png',
+    },
+    '4' : {
+        left_eye : 'test_data/left_eye.png',
+        right_eye : 'test_data/right_eye.png',
+    },
+}
+
+var mouthDB = {
+    '1' : {
+        mouth : 'test_data/mouth.png',
+    },
+    '2' : {
+        mouth : 'test_data/mouth.png',
+    },
+    '3' : {
+        mouth : 'test_data/mouth.png',
+    },
+    '4' : {
+        mouth : 'test_data/mouth.png',
     },
 }
 
 
-var adapt = function(choose_pic,useBrow,useEye,useMouth) {
+var adapt = function(browIdx,eyeIdx,mouthIdx) {
 
-    if (starDB[choose_pic]) {
+    var chooseRes = {};
 
-        var starPics = starDB[choose_pic];
-        var chooseRes = {
-            left_eyebrow:0,
-            right_eyebrow:0,
-            left_eye:0,
-            right_eye:0,
-            mouth:0,
-        };
+    console.log(browIdx);
+    console.log(eyeIdx);
+    console.log(mouthIdx);
 
-        if (useBrow === 1) {
-            chooseRes.left_eyebrow = starPics.left_eyebrow;
-            chooseRes.right_eyebrow = starPics.right_eyebrow;
+    if (browIdx > 0) {
+        var browObj = browDB[browIdx];
+        console.log(browObj);
+        if (browObj) {
+            chooseRes.left_eyebrow = browObj.left_eyebrow;
+            chooseRes.right_eyebrow = browObj.right_eyebrow;
         }
-
-        if (useEye === 1) {
-            chooseRes.left_eye = starPics.left_eye;
-            chooseRes.right_eye = starPics.right_eye;
-        }
-
-        if (useMouth === 1) {
-            chooseRes.mouth = starPics.mouth;
-        }
-        return chooseRes;
-    }else{
-        return 0;
     }
+
+    if (eyeIdx > 0) {
+        var eyeObj = eyeDB[eyeIdx];
+        if (eyeObj) {
+            chooseRes.left_eye = eyeObj.left_eye;
+            chooseRes.right_eye = eyeObj.right_eye;
+        }
+    }
+
+    if (mouthIdx > 0) {
+        var mouthObj = mouthDB[mouthIdx];
+        if (mouthObj) {
+            chooseRes.mouth = mouthObj.mouth;
+        }
+    }
+
+    console.log(chooseRes);
+
+    for(var key in chooseRes){
+        chooseRes[key] = path.join(__dirname + '/../face_merge/sample',chooseRes[key]);
+        
+    }
+    console.log(chooseRes);
+    return chooseRes;
 };
 
 
