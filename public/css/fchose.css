@@ -1,0 +1,29 @@
+.icon {
+    text-align: center;
+    margin-top: 5em;
+}
+.icon img{
+    width: 10em;
+    height: 10em;
+}
+.chose {
+    position: relative;
+    margin-top: 5em;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+.list {
+    background: url('../images/fchose/inter-v1-0.png') no-repeat;
+    background-size: 8em 8em;
+    width: 8em;
+    height: 8em;
+    position: absolute;
+}
+.pic {
+    background: url('../images/fchose/inter-v1-01.png') no-repeat;
+    background-size: 8em 8em;
+    width: 8em;
+    height: 8em;
+    position: absolute;
+    right: 0px;
+}
