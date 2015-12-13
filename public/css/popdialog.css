@@ -1,0 +1,33 @@
+/*popBox*/
+.popBox .viewPic { text-align: center; display: table-cell; vertical-align: middle; }
+.popBox .viewPic img { max-width: 100%; }
+.popBox .btn-delet { position: absolute; top: 0; right: 0; width: 1.4em; height: 5em; display: inline-block; padding: 0 1.5em; background-repeat: no-repeat; background-position: center center; background-size: auto 1.6em; background-image: url(../images/mobile-base/icon-delet.png); }
+
+/*erro*/
+.popBox { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; /*erro*/ /*code*/ /*login*/ /*btn*/ }
+.popBox .popBg { width: 90%; margin: 2.5em auto 0; text-align: center; position: relative; }
+.popBox .comment { margin-top: 2.5em; }
+.popBox .type-area { width: 94%; border: none; height: 7.35em; resize: none; color: #ccc; font-size: 1.16em; padding: 1.5em 3%; border-top-left-radius: 0.75em; border-top-right-radius: 0.75em; border-bottom-left-radius: 0; border-bottom-right-radius: 0; outline: none; display: block; }
+.popBox .elm-bar { height: 4em; background-color: #f2f2f2; position: relative; border-bottom-left-radius: 0.75em; border-bottom-right-radius: 0.75em; text-align: left; }
+.popBox .elm-bar .warn-tips { color: #fe0000; line-height: 4em; font-size: 1em; position: absolute; top: -3.25em; left: 1.5em; }
+.popBox .elm-bar .warn-tips-1 { color: #fe0000; padding-left: 1.5em; line-height: 4em; font-size: 1em; }
+.popBox .tipsBox { text-align: center; padding: 4em 0 4em 0; vertical-align: middle; background-color: #fff; }
+.popBox .tipsBox p { font-size: 1.6em; padding: 0 1em; line-height: 1.4; }
+.popBox .codeBox { margin-top: 2.5em; }
+.popBox .yanzCode { padding: 1.5em; }
+.popBox .yanzCode .type-text { width: 13.75em; text-align: center; }
+.popBox .yanzCode img { height: 2.15em; width: 6.1em; vertical-align: middle; margin: 0 0.5em; }
+.popBox .yanzCode .change { color: #128ee4; text-decoration: underline; }
+.popBox .yanzCode .tips { padding-left: 0; }
+.popBox .btnCode { text-align: center; margin-top: 37px; }
+.popBox .btnCode .btncansel, .popBox .btnCode .btnsure { position: static; margin: 0 0.5em; }
+.popBox .type-text { padding: 0.75em 0; background-color: #fafafa; border: 1px solid #ccc; width: 100%; margin-top: 1em; margin-bottom: 0.5em; color: #ccc; font-size: 1.4em; text-align: left; outline: none; }
+.popBox .warn-line { color: #fe0000; padding-left: 1em; text-align: left; height: 1.5em; }
+.popBox .tips { padding-left: 1em; text-align: left; line-height: 1.4; }
+.popBox .tipsBox .btn { display: inline-block; width: 11em; height: 2.4em; line-height: 2.4em; background-color: #ffdc19; color: #2f3032; font-size: 1.4em; margin-top: 2em; }
+.popBox .login { padding: 1em; text-align: center; }
+.popBox .service { margin-top: 0.5em; color: #666; }
+.popBox .service input[type=checkbox] { width: 0.9em; height: 0.9em; margin-right: 0.25em; }
+.popBox .btncansel, .popBox .btnsure { display: inline-block; width: 6em; height: 2.4em; line-height: 2.4em; text-align: center; color: #2f3032; position: absolute; top: 0.75em; border-radius: 0.25em; }
+.popBox .btncansel { background-color: #ccc; right: 8.5em; }
+.popBox .btnsure { background-color: #ffdc19; right: 1.5em; }
