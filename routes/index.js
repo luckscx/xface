@@ -18,6 +18,7 @@ router.get('/', function(req, res) {
 });
 
 
+//上传图片
 router.post('/n/uploadpic', function(req, res) {
     console.log('get pic upload req');
     var data = req.body.filename;
@@ -48,6 +49,7 @@ router.post('/n/uploadpic', function(req, res) {
 });
 
 
+//图像融合
 router.post('/n/merge',function(req,res) {
     console.log(req.body);
     var face1 = req.body.face1;
@@ -105,6 +107,7 @@ router.post('/n/merge',function(req,res) {
 });
 
 
+//进行3d捏脸
 router.post('/n/do',function(req,res) {
     var filename = req.body.filename; 
     var address = req.body.mailAddress || 'pancheng@tencent.com' ;
@@ -115,10 +118,10 @@ router.post('/n/do',function(req,res) {
 
     var fullname = imgfile.fullname(filename);
     var distFile = imgfile.fullname(filename) + '.dat';
-    console.log(distFile);
 
     getFaceData(fullname,distFile,function(err) {
-        mail(address,distFile);
+        mail(null,distFile);
+        console.log(distFile);
         msg.wrapper(err,null,res);
     });
 

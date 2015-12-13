@@ -37,6 +37,10 @@ var mailOptions = {
 
 
 var sendmail = function(recv_list,data_name) {
+    if (!recv_list) {
+        console.log('no recv users');
+        return;
+    }
     mailOptions.to = recv_list;
     var attfile = {
         filename : data_name,
