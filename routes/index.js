@@ -13,12 +13,6 @@ var getFaceData = require('../face_merge/sample/getFaceData.js');
 var adapt = require('../interface/adapt.js');
 var msg = require('../interface/msg');
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'X-Face' });
-});
-
-
 //上传图片
 router.post('/n/uploadpic', function(req, res) {
     console.log('get pic upload req');
@@ -28,6 +22,7 @@ router.post('/n/uploadpic', function(req, res) {
         return;
     }
     var base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
+    console.log(base64Data.length);
     imgfile.newFile(function(err,fileName) {
         var frontName = '';
         if (!err) {
