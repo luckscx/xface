@@ -299,11 +299,6 @@ $(document).ready(function(){
         if(type == 1) {
             url = 'fchose.html';
         }
-        if(flag == 1) {
-            location.href = "preimportsucmine.html";
-        } else {
-            location.href = "preimportsucminec.html";
-        }
-        //location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
+        location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
     }
 })
