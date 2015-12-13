@@ -151,6 +151,7 @@ $(document).ready(function(){
                     $('.img .show').show();
                     $('.img .show img').attr('src', json.result);
                     $('.img .show img').attr('data-s', json.result);
+                    $('.btn span').addClass('enable');
                 }
             }
         })
@@ -215,5 +216,6 @@ $(document).ready(function(){
         $('.img .sel').show();
         $('.img .show').hide();
         $('.img .show img').attr('src', '');
+        $('.btn span').removeClass('enable');
     })
 })

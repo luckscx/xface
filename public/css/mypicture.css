@@ -31,28 +31,27 @@
     margin-top: 1em;
     text-align: center;
 }
+.btn .enable {
+    background-color: #32b3ed;
+}
 .do {
-    background: url('../images/mypicture/startcreateface.png') no-repeat;
-    background-size: 100% 100%;
     border-radius: 6px;
-    float: left;
     margin-right: 12px;
     width: 6.5em;
     height: 2em;
     max-width: 6.5em;
     max-height: 2em;
-    margin-left: 2em;
+    background-color: #b5b5b7;
+    padding: 0.5em 1em;
 }
 .pic2 {
-    background: url('../images/mypicture/rongheface.png') no-repeat;
-    background-size: 100% 100%;
     border-radius: 6px;
-    float: right;
     width: 6.5em;
     height: 2em;
     max-width: 6.5em;
     max-height: 2em;
-    margin-right: 2em;
+    background-color: #b5b5b7;
+    padding: 0.5em 1em;
 }
 .sel {
     background: url('../images/mypicture/select.png') no-repeat;
