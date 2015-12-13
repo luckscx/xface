@@ -1,5 +1,6 @@
 $(document).ready(function(){
     pop.addCSS();
+    var bImmediatery = true; 
     $('.do').click(function(){
         var image = $('.img img').eq(0).attr('src');
         if(image.length == 0) {
@@ -35,6 +36,24 @@ $(document).ready(function(){
     })
     $('.list span').click(function(){
         $(this).addClass('cur').siblings().removeClass('cur');
+        $('.position span').removeClass('p1cur').removeClass('p2cur').removeClass('p3cur');
+        var useArray = $('.position span[data-i="' + $(this).attr("data-i") + '"]');
+        for(var i = 0; i < useArray.length; i++) {
+            var $ele = $(useArray[i]);
+            switch (parseInt($ele.index(), 10)) {
+                case 0:
+                    $ele.addClass('p1cur');
+                    break;
+                case 1:
+                    $ele.addClass('p2cur');
+                    break;
+                case 2:
+                    $ele.addClass('p3cur');
+                    break;
+                default:
+                    break;
+            }
+        }
     });
     $('.position span').click(function(){
         if(checkSelected()) {
@@ -44,22 +63,43 @@ $(document).ready(function(){
                 case 0:
                     if($ele.hasClass('p1cur')){
                         $ele.removeClass('p1cur');
+                        $ele.attr('data-i', ''); 
                     }else{
                         $ele.addClass('p1cur');
+                        $ele.attr('data-i', $('.list .cur').attr('data-i')); 
+                        if(bImmediatery) {
+                            merge(function(url){
+                                $('.show img').attr('src', url);
+                            });           
+                        }
                     }
                     break;
                 case 1:
                     if($ele.hasClass('p2cur')){
                         $ele.removeClass('p2cur');
+                        $ele.attr('data-i', ''); 
                     }else{
                         $ele.addClass('p2cur');
+                        $ele.attr('data-i', $('.list .cur').attr('data-i')); 
+                        if(bImmediatery) {
+                            merge(function(url){
+                                $('.show img').attr('src', url);
+                            });           
+                        }
                     }
                     break;
                 case 2:
                     if($ele.hasClass('p3cur')){
                         $ele.removeClass('p3cur');
+                        $ele.attr('data-i', ''); 
                     }else{
                         $ele.addClass('p3cur');
+                        $ele.attr('data-i', $('.list .cur').attr('data-i')); 
+                        if(bImmediatery) {
+                            merge(function(url){
+                                $('.show img').attr('src', url);
+                            });           
+                        }
                     }
                     break;
                 default:
@@ -67,6 +107,25 @@ $(document).ready(function(){
             }
         }
     })
+    function merge(callback){
+        $.ajax({
+            url: 'n/merge',
+            type: 'POST',
+            data: {
+                face1: $('.show img').attr('data-s'),
+                browIdx: $('.position .p1').attr('data-i') == "" ? 0: $('.position .p1').attr('data-i'),
+                eveIdx: $('.position .p2').attr('data-i') == "" ? 0: $('.position .p2').attr('data-i'),
+                mouthIdx: $('.position .p3').attr('data-i') == ''? 0: $('.position .p3').attr('data-i')
+            },
+            success: function(json){
+                if(json.errCode != 0) {
+                    alert(json.msg);
+                } else {
+                    callback(json.result);
+                }
+            }
+        })
+    };
     $('.fun .f').click(function(){
         var index = $(this).index();
         var $ele = $(this);
@@ -77,24 +136,9 @@ $(document).ready(function(){
             $('.p3cur').removeClass('p3cur');
             $('.show img').attr('src', $('.show img').attr('data-s'));
         } else if(index == 2) {
-            $.ajax({
-                url: 'n/merge',
-                type: 'POST',
-                data: {
-                    face1: $('.show img').attr('data-s'),
-                    face2: $('.list .cur img').attr('src'),
-                    useBrow: $('.position .p1').hasClass('p1cur')? 1: 0,
-                    useEve: $('.position .p2').hasClass('p2cur')? 1: 0,
-                    useMouth: $('.position .p3').hasClass('p3cur')? 1: 0
-                },
-                success: function(json){
-                    if(json.errCode != 0) {
-                        alert(json.msg);
-                    } else {
-                        showMergeResult(json.result);
-                    }
-                }
-            })
+            merge(function(url){
+                showMergeResult(url);
+            });
         }
     })
     function showMergeResult(url){
@@ -152,7 +196,7 @@ $(document).ready(function(){
             window.loadingOverlay.close();
         }
     });
-    
+
     function toFixed2(num) {
         return parseFloat(+num.toFixed(2));
     }
