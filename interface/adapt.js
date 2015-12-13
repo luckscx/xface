@@ -2,61 +2,93 @@
 "use strict";
 
 
-var starDB = {
-    'upload/D0001.jpg' : {
+var browDB = {
+    '1' : {
         left_eyebrow : 'faked/D0001_left_eyebrow.jpg',
         right_eyebrow : 'faked/D0001_right_eyebrow.jpg',
-        left_eye : 'faked/D0001_left_eye.jpg',
-        right_eye : 'faked/D0001_right_eye.jpg'
-        mouth : 'faked/D0001_mouth.jpg'
     },
-    'upload/D0002.jpg' : {
+    '2' : {
         left_eyebrow : 'faked/D0002_left_eyebrow.jpg',
         right_eyebrow : 'faked/D0002_right_eyebrow.jpg',
-        left_eye : 'faked/D0002_left_eye.jpg',
-        right_eye : 'faked/D0002_right_eye.jpg'
-        mouth : 'faked/D0002_mouth.jpg'
     },
-    'upload/D0003.jpg' : {
+    '3' : {
         left_eyebrow : 'faked/D0003_left_eyebrow.jpg',
         right_eyebrow : 'faked/D0003_right_eyebrow.jpg',
-        left_eye : 'faked/D0003_left_eye.jpg',
-        right_eye : 'faked/D0003_right_eye.jpg'
-        mouth : 'faked/D0003_mouth.jpg'
+    },
+    '4' : {
+        left_eyebrow : 'faked/D0003_left_eyebrow.jpg',
+        right_eyebrow : 'faked/D0003_right_eyebrow.jpg',
+    },
+}
+
+var eyeDB = {
+    '1' : {
+        left_eye : 'faked/D0001_left_eyebrow.jpg',
+        right_eye : 'faked/D0001_right_eyebrow.jpg',
+    },
+    '2' : {
+        left_eye : 'faked/D0002_left_eyebrow.jpg',
+        right_eye : 'faked/D0002_right_eyebrow.jpg',
+    },
+    '3' : {
+        left_eye : 'faked/D0003_left_eyebrow.jpg',
+        right_eye : 'faked/D0003_right_eyebrow.jpg',
+    },
+    '4' : {
+        left_eye : 'faked/D0003_left_eyebrow.jpg',
+        right_eye : 'faked/D0003_right_eyebrow.jpg',
+    },
+}
+
+var mouthDB = {
+    '1' : {
+        mouth : 'faked/D0001_left_eyebrow.jpg',
+    },
+    '2' : {
+        mouth : 'faked/D0002_left_eyebrow.jpg',
+    },
+    '3' : {
+        mouth : 'faked/D0003_left_eyebrow.jpg',
+    },
+    '4' : {
+        mouth : 'faked/D0003_left_eyebrow.jpg',
     },
 }
 
 
-var adapt = function(choose_pic,useBrow,useEye,useMouth) {
+var adapt = function(browIdx,eyeIdx,mouthIdx) {
 
-    if (starDB[choose_pic]) {
+    var chooseRes = {};
 
-        var starPics = starDB[choose_pic];
-        var chooseRes = {
-            left_eyebrow:0,
-            right_eyebrow:0,
-            left_eye:0,
-            right_eye:0,
-            mouth:0,
-        };
+    console.log(browIdx);
+    console.log(eyeIdx);
+    console.log(mouthIdx);
 
-        if (useBrow === 1) {
-            chooseRes.left_eyebrow = starPics.left_eyebrow;
-            chooseRes.right_eyebrow = starPics.right_eyebrow;
+    if (browIdx > 0) {
+        var browObj = browDB[browIdx];
+        console.log(browObj);
+        if (browObj) {
+            chooseRes.left_eyebrow = browObj.left_eyebrow;
+            chooseRes.right_eyebrow = browObj.right_eyebrow;
         }
-
-        if (useEye === 1) {
-            chooseRes.left_eye = starPics.left_eye;
-            chooseRes.right_eye = starPics.right_eye;
-        }
-
-        if (useMouth === 1) {
-            chooseRes.mouth = starPics.mouth;
-        }
-        return chooseRes;
-    }else{
-        return 0;
     }
+
+    if (eyeIdx > 0) {
+        var eyeObj = eyeDB[eyeIdx];
+        if (eyeObj) {
+            chooseRes.left_eye = eyeObj.left_eye;
+            chooseRes.right_eye = eyeObj.right_eye;
+        }
+    }
+
+    if (mouthDB > 0) {
+        var mouthObj = mouthDB[mouthIdx];
+        if (mouthObj) {
+            chooseRes.mouth = mouthObj.mouth;
+        }
+    }
+    console.log(chooseRes);
+    return chooseRes;
 };
 
 
