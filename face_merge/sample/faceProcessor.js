@@ -1,4 +1,4 @@
-//融合时考虑性别：男男、女女、男女，采用不同融合方法
+//;融合时考虑性别：男男、女女、男女，采用不同融合方法
 //是否考虑颜值？达到颜值最大化？
 //先切分五官再拼接
 
@@ -54,23 +54,17 @@ var _getOrgans = function(imgPath,cb){
     });
 };
 
-// 人脸比对 测试
-//youtu.facecompare('a.jpg', 'a.jpg', function(data){
-//    console.log("facecompare:" + JSON.stringify(data));
-//});
-
-// 人脸比对 测试
-//youtu.fuzzydetect('a.jpg', function(data){
-//    console.log("fuzzydetect:" + JSON.stringify(data));
-//});
-
-//youtu.fooddetect('a.jpg', function(data){
-//    console.log("fooddetect:" + JSON.stringify(data));
-//});
-
-//youtu.imagetag('a.jpg', function(data){
-//    console.log("imagetag:" + JSON.stringify(data));
-//});
+var _getOrgans2 = function(imgPath,faceData,cb){
+    console.log("getOrgans "+imgPath);
+    youtu.faceshape(imgPath,1,function(res){
+        if(parseInt(res.data.errorcode) !== 0){
+            cb(res.data.errormsg);
+            return;
+        }
+        faceData.data = res.data.face_shape[0];
+        cb();
+    });
+};
 
 var _minAndMax = function(arr){
     var min = arr[0];
@@ -110,93 +104,6 @@ var _getRect = function(obj){
     return rect;
 };
 
-/*
-var getLeftEye = function(){
-    youtu.faceshape('SCUT-FBP-22.jpg',1,function(res){
-        //console.log(JSON.stringify(data));
-        var left_eye = res.data.face_shape[0].left_eye;
-        console.log(left_eye);
-        //var fdRead = fs.openSync('SCUT-FBP-22.jpg',"r");
-        //var fdWrite = fs.openSync('out.jpg',"w+");
-        //var length = 486*638;
-        var rect = _getRect(left_eye);
-        console.log(rect);
-        //var buffer = new Buffer(length);
-        //fs.readSync(fdRead,buffer,0,length,0);
-        //for(var i=0;i<left_eye.length;i++){
-        //    var point = left_eye[i];
-        //    console.log(buffer[point.x*point.y]);
-        //}
-        //fs.writeSync(fdWrite,buffer,0,length,0);
-        //fs.closeSync(fdRead);
-        //fs.closeSync(fdWrite);
-        easyimg.crop({
-            src:'SCUT-FBP-22.jpg', dst: 'left_eye.jpg',
-            width:res.data.image_width, height:res.data.image_height,
-            cropwidth:rect.width, cropheight:rect.height,
-            x:rect.x, y:rect.y,
-            gravity:'NorthWest'
-
-        }).then(
-            function (file) {
-                console.log(file);
-            },
-            function(err){
-                console.log(err);
-            }   
-        );
-    });
-}
-
-
-var getRightEye = function(){
-    youtu.faceshape('SCUT-FBP-22.jpg',1,function(res){
-        var right_eye = res.data.face_shape[0].right_eye;
-        console.log(right_eye);
-        var rect = _getRect(right_eye);
-        console.log(rect);
-        easyimg.crop({
-            src:'SCUT-FBP-22.jpg', dst: 'right_eye.jpg',
-            width:res.data.image_width, height:res.data.image_height,
-            cropwidth:rect.width, cropheight:rect.height,
-            x:rect.x, y:rect.y,
-            gravity:'NorthWest'
-
-        }).then(
-            function (file) {
-                console.log(file);
-            },
-            function(err){
-                console.log(err);
-            }   
-        );
-    });
-}
-
-var getNose = function(){
-    youtu.faceshape('SCUT-FBP-22_resize.jpg',1,function(res){
-        var nose = res.data.face_shape[0].nose;
-        console.log(nose);
-        var rect = _getRect(nose);
-        console.log(rect);
-        easyimg.crop({
-            src:'SCUT-FBP-22.jpg', dst: 'nose.jpg',
-            width:res.data.image_width, height:res.data.image_height,
-            cropwidth:rect.width, cropheight:rect.height,
-            x:rect.x, y:rect.y,
-            gravity:'NorthWest'
-
-        }).then(
-            function (file) {
-                console.log(file);
-            },
-            function(err){
-                console.log(err);
-            }   
-        );
-    });
-}
-*/
 
 var _getPartofFace = function(res,srcPath,dstPath,suffix,organ,cb){
     console.log(organ);
@@ -282,6 +189,24 @@ var composition = function(faceArray,savePath,method,cb){
     cb();
 };
 
+var composition2 = function(objArray,faceData,base,savePath,cb){
+    var otherOrgan;
+    var selfOrgan;
+    var rect;
+    
+    for(var key in objArray){
+        otherOrgan = images(objArray[key]);
+        selfOrgan = faceData.data[key];
+        console.log(key);
+        console.log(selfOrgan);
+        rect = _getRect(selfOrgan);
+        otherOrgan.resize(rect.width,rect.height);
+        base.draw(otherOrgan,rect.x,rect.y);
+    }
+    base.save(savePath,{quality:100});
+    cb();
+};
+
 var getFaceScore = function(imgPath,cb){
     youtu.detectface(imgPath,1,function(res){
         console.log(res.data.face);
@@ -298,7 +223,7 @@ var _getFaceShape = function(face,dataArray,cb){
         dataArray[face] = faceObject;
         cb();
     });
-}
+};
 
 var _joint = function(face0,face1,dataArray,cb){
     async.waterfall([
@@ -333,7 +258,7 @@ var _joint = function(face0,face1,dataArray,cb){
         cb(err);
     })
 
-}
+};
 
 var halfFaceJoint = function(face0,face1,cb){
     var dataArray = {};
@@ -400,6 +325,35 @@ niubiFace.mergeFace = function(faceArray,method,savePath,cb){
     });
 };
 
+//["left_eyebrow":"meimao.png","yanjing.png"];
+//"yonghu.jpg"
+
+niubiFace.mergeOrgan = function(objArray,userFace,savePath,cb){
+    var faceData = {};
+    var base = images(userFace);
+    async.waterfall([
+        function(callback){
+            if(!fs.existsSync(userFace)){
+                cb(face+" is not exists!");
+                return;
+            }
+            _getOrgans2(userFace,faceData,callback);
+        },
+        function(callback){
+            console.log('start composition');
+            composition2(objArray,faceData,base,savePath,callback);
+        }
+    ],function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('success');
+        }
+        cb(err);
+    });
+};
+
 module.exports = niubiFace;
 
 
@@ -407,7 +361,17 @@ if(require.main === module){
     //main();
     //getFaceScore('./test_data/SCUT-FBP-4.jpg',1);
     //halfFaceJoint('./test_data/SCUT-FBP-4.jpg','./test_data/SCUT-FBP-22.jpg');
-    mergeFace(globalFaceArray,globalMethod,'..compositon.jpg',function(){
-        console.log('callback');
+    //mergeFace(globalFaceArray,globalMethod,'..compositon.jpg',function(){
+    //    console.log('callback');
+    //});
+    var organArray = {
+        'left_eyebrow':'./test_data/left_eyebrow.png',
+        'right_eyebrow':'./test_data/right_eyebrow.png',
+        'mouth':'./test_data/mouth.png',
+        'left_eye':'./test_data/left_eye.png',
+        'right_eye':'./test_data/right_eye.png',
+    };
+    niubiFace.mergeOrgan(organArray,'./test_data/SCUT-FBP-4.jpg','composition.jpg',function(){
+        console.log('finish!');
     });
 }
