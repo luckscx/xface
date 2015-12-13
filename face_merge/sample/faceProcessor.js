@@ -18,6 +18,7 @@ var userid = 'claude';
 
 conf.setAppInfo(appid, secretId, secretKey, userid, 1);
 
+var niubiFace = {};
 var faceObjectArray = {};
 
 //src转成target的大小
@@ -70,44 +71,6 @@ var _getOrgans = function(imgPath,cb){
 //youtu.imagetag('a.jpg', function(data){
 //    console.log("imagetag:" + JSON.stringify(data));
 //});
-/*
-var rect;
-    youtu.faceshape('./test_data/SCUT-FBP-4.jpg',1,function(res){
-        if(res.data.errorcode != 0){
-            cb(res.data.errormsg);
-            return;
-        }
-        var obj = res.data.face_shape[0].left_eye;
-        console.log(obj);
-        rect = _getRect(obj);
-        console.log(rect);
-        var base = images('./test_data/SCUT-FBP-4.jpg');
-        var left_eye_self = images('./test_data/SCUT-FBP-4_res/left_eye.jpg');
-        var left_eye_other = images('./test_data/SCUT-FBP-22_res/left_eye.jpg');
-        left_eye_other.resize(left_eye_self.width(),left_eye_self.height());
-        base.draw(left_eye_other,rect.x,rect.y);
-        
-        obj = res.data.face_shape[0].nose;
-        console.log(obj);
-        rect = _getRect(obj);
-        console.log(rect);
-        var nose_self= images('./test_data/SCUT-FBP-4_res/nose.jpg');
-        var nose_other= images('./test_data/SCUT-FBP-22_res/nose.jpg');
-        nose_other.resize(nose_self.width(),nose_self.height());
-        base.draw(nose_other,rect.x,rect.y);
-
-        obj = res.data.face_shape[0].mouth;
-        console.log(obj);
-        rect = _getRect(obj);
-        console.log(rect);
-        var mouth_self= images('./test_data/SCUT-FBP-4_res/mouth.jpg');
-        var mouth_other= images('./test_data/SCUT-FBP-22_res/mouth.jpg');
-        mouth_other.resize(mouth_self.width(),mouth_self.height());
-        base.draw(mouth_other,rect.x,rect.y);
-        
-        base.save('./res.jpg',{quality:100});
-    });
-*/
 
 var _minAndMax = function(arr){
     var min = arr[0];
@@ -406,7 +369,18 @@ var globalMethod = {
     nose:1
 };
 
-var mergeFace = function(faceArray,method,savePath,cb){
+var niubiFace.checkFace = function(imgPath,cb){
+    youtu.detectface(imgPath,1,function(res){
+        if(parseInt(res.data.errorcode) !== 0){
+            cb(res.data.errormsg);
+        }
+        else{
+            cb(null);
+        }
+    });    
+}
+
+var niubiFace.mergeFace = function(faceArray,method,savePath,cb){
     async.waterfall([
         function(callback){
             _processFace(faceArray,callback);
@@ -426,7 +400,7 @@ var mergeFace = function(faceArray,method,savePath,cb){
     });
 };
 
-module.exports = mergeFace;
+module.exports = niubiFace;
 
 
 if(require.main === module){
