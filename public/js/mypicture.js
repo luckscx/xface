@@ -14,9 +14,11 @@ $(document).ready(function(){
             },
             success: function(json){
                 if(json.errCode != 0) {
-                    alert(json.msg);
+                    //alert(json.msg);
+                    showResult(1, 2);
                 } else {
-                    alert("上传成功");
+                    showResult(1, 1);
+                    //alert("上传成功");
                 }
             }
         })
@@ -110,9 +112,11 @@ $(document).ready(function(){
             },
             success: function(json){
                 if(json.errCode != 0) {
-                    alert(json.msg);
+                    //alert(json.msg);
+                    showResult(1, 2);
                 } else {
-                    alert("上传成功");
+                    showResult(1, 1);
+                    //alert("上传成功");
                 }
             }
         })
@@ -244,4 +248,11 @@ $(document).ready(function(){
         $('.img .show img').attr('src', '');
         $('.btn span').removeClass('enable');
     })
+    function showResult(tType, type){
+        var url = location.href;
+        if(type == 1) {
+            url = 'index.html';
+        }
+        location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
+    }
 })
