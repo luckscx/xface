@@ -10,6 +10,7 @@ var imgfile = require('../interface/imgfile.js');
 //var niubiFace = require('../face_merge/sample/faceProcessor.js');
 var niubiFace = require('../face_merge/sample/faceProcessor.js');
 var getFaceData = require('../face_merge/sample/getFaceData.js');
+//var adapt = require('../interface/adapt.js');
 var msg = require('../interface/msg');
 
 /* GET home page. */
@@ -63,6 +64,13 @@ router.post('/n/merge',function(req,res) {
         return;
     }
 
+    //var chooseRes = adapt(face2,useBrow,useEye,useMouth);
+
+    //if (!chooseRes) {
+        //msg.wrapper(73,null,res);
+        //return ;
+    //}
+
     face1 = imgfile.fullname(face1);
     face2 = imgfile.fullname(face2);
 
@@ -91,6 +99,7 @@ router.post('/n/merge',function(req,res) {
     }
 
     console.log(chooseRes);
+
 
     imgfile.newFile(function(err,fileName) {
         console.log(fileName);
