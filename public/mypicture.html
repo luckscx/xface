@@ -8,8 +8,13 @@
     <link rel="stylesheet" href="css/upload.css"/>
     <link rel="stylesheet" type="text/css" href="css/mypicture.css">
     <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="js/mypicture.js"></script>
+    <script type="text/javascript" src="js/lib/dialog.js"></script>
     <script type="text/javascript" src="js/lib/dialog-plus-min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/cropper.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css">
+    <script type="text/javascript" src="../js/lib/imagecropper/lrz.all.bundle.js"></script>
+    <script type="text/javascript" src="../js/lib/imagecropper/cropper.min.js"></script>
+    <script type="text/javascript" src="js/mypicture.js"></script>
 </head>
 <body>
 <div class="page">
@@ -17,12 +22,27 @@
         <span>我的照片</span>
     </div>
     <div class="img">
-        <img src="http://q3.qlogo.cn/g?b=qq&k=7mQ3bjxTsibFLo4sXNXXvJg&s=100&t=1397616520#773137550" />
+        <div class="sel">
+            <input type="file" accept="images/*" capture="camera" id="image">
+        </div> 
+        <div class="show" style="display: none">
+            <img src="" />
+            <a class="del"></a>
+        </div>
     </div>
     <div class="btn">
         <a class="do"></a>
         <a class="pic2"></a>
     </div>
 </div>
+    <div id="showEdit" style="display: none;width:100%;height: 100%;position: absolute;top:0;left: 0;z-index: 9;">
+        <div style="width:100%;position: absolute;top:10px;left:0px;">
+            <button class="mui-btn" data-mui-style="fab" id='cancleBtn' style="margin-left: 10px;">取消</button>
+            <button class="mui-btn" data-mui-style="fab" data-mui-color="primary" id='confirmBtn' style="float:right;margin-right: 10px;">确定</button>
+        </div>
+        <div id="report">
+            <!-- <img src="mei.jpg" style="width: 300px;height:300px"> -->
+        </div>
+    </div>
 </body>
 </html>

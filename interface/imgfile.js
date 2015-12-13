@@ -11,9 +11,6 @@ var imgfile = {};
 var uploadDir = path.join(__dirname + '/../public/');
 
 
-console.log(uploadDir);
-console.log(uploadDir.length);
-
 if(!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 } 
@@ -44,7 +41,7 @@ imgfile.newFile = function(cb) {
 };
 
 imgfile.getName = function(fullname) {
-    return fullname.slice(uploadDir.length,-1);
+    return fullname.slice(uploadDir.length);
 };
 
 imgfile.fullname = function(frontname) {

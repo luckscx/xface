@@ -9,6 +9,7 @@ var youtu = tencentyoutuyun.youtu;
 var fs = require('fs');
 var easyimg = require('easyimage');
 var images = require('images');
+var path = require('path');
 var async = require('async');
 // 设置开发者和应用信息, 请填写你在开放平台
 var appid = '1004063';
@@ -34,7 +35,7 @@ var _minAndMax = function(arr){
     res.max = max;
     res.min = min;
     return res;
-}
+};
 
 var _getRect = function(obj){
     var x=[];
@@ -99,7 +100,7 @@ var getFaceData = function(imgPath,out,cb){
             youtu.faceshape(imgPath,1,function(res){
                 //console.log(res.data.face_shape[0]);
                 console.log('faceshape');
-                if(res.data.errorcode != 0){
+                if(res.data.errorcode !== 0){
                     callback(res.data.errormsg);
                 }
                 else{
@@ -113,7 +114,7 @@ var getFaceData = function(imgPath,out,cb){
             youtu.detectface(imgPath,1,function(res){
                 console.log('detectface');
                 console.log(res.data.face);
-                if(res.data.errorcode != 0){
+                if(res.data.errorcode !== 0){
                     callback(res.data.errormsg);
                 }
                 else{
@@ -141,22 +142,21 @@ var getFaceData = function(imgPath,out,cb){
     });
 };
 
-var replaceFactor = function(dstFile,keyArr,valueArr){
-    var content = fs.readFileSync('./test_data/src.dat','utf8');
+var replaceFactor = function(srcFile,dstFile,keyArr,valueArr){
+    var content = fs.readFileSync(srcFile,'utf8');
     console.log(content);
     for(var x in keyArr){
         var tmp = content.indexOf(keyArr[x]+'"]=');
         var begin = content.indexOf('=',tmp);
         var end = content.indexOf(',',begin);
         var value = content.substr(begin+1,end-begin-1);
-        console.log("aaaaaaaaaaaaa");
         console.log(x);
         console.log('["'+keyArr[x]+'"]='+value);
         console.log('["'+keyArr[x]+'"]='+valueArr[x]);
         content = content.replace('["'+keyArr[x]+'"]='+value,'["'+keyArr[x]+'"]='+valueArr[x]);
     }
     fs.writeFileSync(dstFile,content);
-}
+};
 
 var femaleFactor = {
     'eye_weizhi':100/(11),
@@ -301,6 +301,7 @@ var femaleInfo = {
 };
 
 var humanInfo = [maleInfo,femaleInfo];
+var srcDatPath = path.join(__dirname,'test_data/src.dat');
 
 var generateDat = function(imgPath,dstDatPath,cb){
     var out = {};
@@ -309,7 +310,6 @@ var generateDat = function(imgPath,dstDatPath,cb){
             console.log(err);
         }         
         else{
-            /*
             var minFactor;
             var maxFactor;
             var factor;
@@ -324,16 +324,19 @@ var generateDat = function(imgPath,dstDatPath,cb){
                 out[x] = Math.min(maxFactor[x],out[x]);
                 out[x] = Math.max(minFactor[x],out[x]);
             }
-            replaceFactor(dstDatPath,datFactor,out);
-            */
-            fs.writeFileSync(dstDatPath,JSON.stringify(out));
+            replaceFactor(srcDatPath,dstDatPath,datFactor,out);
+            //fs.writeFileSync(dstDatPath,JSON.stringify(out));
         }
         cb(err);
     });
 };
 
+module.exports = generateDat;
+
 if(require.main === module){
-    generateDat('./test_data/man-1.jpg','res.dat',function(err){
+    var pic1 = path.join(__dirname,'test_data/man-1.jpg');
+    var distStr = path.join(__dirname,'res.dat');
+    generateDat(pic1,'res.dat',function(err){
         if(err){
             console.log(err);
         }

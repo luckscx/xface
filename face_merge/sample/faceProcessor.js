@@ -369,7 +369,7 @@ var globalMethod = {
     nose:1
 };
 
-var niubiFace.checkFace = function(imgPath,cb){
+niubiFace.checkFace = function(imgPath,cb){
     youtu.detectface(imgPath,1,function(res){
         if(parseInt(res.data.errorcode) !== 0){
             cb(res.data.errormsg);
@@ -378,9 +378,9 @@ var niubiFace.checkFace = function(imgPath,cb){
             cb(null);
         }
     });    
-}
+};
 
-var niubiFace.mergeFace = function(faceArray,method,savePath,cb){
+niubiFace.mergeFace = function(faceArray,method,savePath,cb){
     async.waterfall([
         function(callback){
             _processFace(faceArray,callback);
