@@ -1,3 +1,10 @@
+.ptitle {
+    text-align: center;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    background-color: #32b3ed;
+}
 .page {
     text-align: center;
 }
@@ -24,28 +31,27 @@
     margin-top: 1em;
     text-align: center;
 }
+.btn .enable {
+    background-color: #32b3ed;
+}
 .do {
-    background: url('../images/mypicture/startcreateface.png') no-repeat;
-    background-size: 100% 100%;
     border-radius: 6px;
-    float: left;
     margin-right: 12px;
     width: 6.5em;
     height: 2em;
     max-width: 6.5em;
     max-height: 2em;
-    margin-left: 2em;
+    background-color: #b5b5b7;
+    padding: 0.5em 1em;
 }
 .pic2 {
-    background: url('../images/mypicture/rongheface.png') no-repeat;
-    background-size: 100% 100%;
     border-radius: 6px;
-    float: right;
     width: 6.5em;
     height: 2em;
     max-width: 6.5em;
     max-height: 2em;
-    margin-right: 2em;
+    background-color: #b5b5b7;
+    padding: 0.5em 1em;
 }
 .sel {
     background: url('../images/mypicture/select.png') no-repeat;
@@ -69,4 +75,86 @@ input {
     width: 100%;
     height: 100%;
     opacity: 0;
+}
+.list {
+    text-align: center;
+    margin-top: 0.5em;
+}
+.list .cur {
+    border-image: url('../images/mypicture/png-22-18.png') 1 1 round;
+}
+.list span {
+    overflow: hidden;
+    display: inline-block;
+    border-image: url('../images/mypicture/png-22-19.png') 1 1 round;
+}
+.star {
+    width: 5em;
+    height: 5em;
+}
+.position {
+    margin-top: 1em;
+    text-align: center;
+    height: 5em;
+    background-color: #b5b5b7;
+    width: 100%;
+}
+.position span {
+    width: 4em;
+    height: 4em;
+    max-width: 4em;
+    max-height: 4em;
+    margin-top: 0.5em;
+    margin-left: 1.5em;
+    display: inline-block;
+}
+.p1 {
+    background: url('../images/mypicture/inter-v1-26.png') no-repeat;
+    background-size: 4em 4em;
+}
+.p1cur {
+    background: url('../images/mypicture/inter-v1-14.png') no-repeat;
+    background-size: 4em 4em;
+}
+.p2 {
+    background: url('../images/mypicture/inter-v1-27.png') no-repeat;
+    background-size: 4em 4em;
+}
+.p2cur {
+    background: url('../images/mypicture/inter-v1-15.png') no-repeat;
+    background-size: 4em 4em;
+}
+.p3 {
+    background: url('../images/mypicture/inter-v1-28.png') no-repeat;
+    background-size: 4em 4em;
+}
+.p3cur {
+    background: url('../images/mypicture/inter-v1-16.png') no-repeat;
+    background-size: 4em 4em;
+}
+.fun {
+    text-align: center;
+    position: relative;
+    height: 7em;
+    width: 100%;
+}
+.fun .f {
+    width: 4em;
+    height: 4em;
+    max-width: 4em;
+    max-height: 4em;
+    margin-top: 0.5em;
+    margin-left: 1.5em;
+    display: inline-block;
+    text-align: center;
+}
+.f img{
+    width: 3em;
+    height: 3em;
+    display: inline-block;
+}
+.f1 div, .f2 div, .f3 div {
+    position: absolute;
+    margin-top: 4em;
+    width: 4em;
 }

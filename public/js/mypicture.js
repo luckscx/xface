@@ -4,9 +4,10 @@ $(document).ready(function(){
         var image = $('.img img').eq(0).attr('src');
         if(image.length == 0) {
             alert('请先上传图片哦');
+            return;
         }
         $.ajax({
-            url:  'n/uploadpic',
+            url:  'n/do',
             type: "POST",
             data: {
                 filename: image
@@ -21,8 +22,82 @@ $(document).ready(function(){
         })
     })
     $('.pic2').click(function(){
-        //todo
+        var image = $('.img img').eq(0).attr('src');
+        if(image.length == 0) {
+            alert('请先上传图片哦');
+            return;
+        }
+        $('.title').text('效果图');
+        $('.merge').show();
+        $('.btn').hide();
     })
+    $('.list span').click(function(){
+        $(this).addClass('cur').siblings().removeClass('cur');
+    });
+    $('.position span').click(function(){
+        if(checkSelected()) {
+            var $ele = $(this);
+            var index = $(this).index();
+            switch (parseInt(index, 10)) {
+                case 0:
+                    if($ele.hasClass('p1cur')){
+                        $ele.removeClass('p1cur');
+                    }else{
+                        $ele.addClass('p1cur');
+                    }
+                    break;
+                case 1:
+                    if($ele.hasClass('p2cur')){
+                        $ele.removeClass('p2cur');
+                    }else{
+                        $ele.addClass('p2cur');
+                    }
+                    break;
+                case 2:
+                    if($ele.hasClass('p3cur')){
+                        $ele.removeClass('p3cur');
+                    }else{
+                        $ele.addClass('p3cur');
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    })
+    $('.fun .f').click(function(){
+        var index = $(this).index();
+        var $ele = $(this);
+        if(index == 0) {
+            $('.position .cur').removeClass('cur');
+            $('.p1cur').removeClass('p1cur');
+            $('.p2cur').removeClass('p2cur');
+            $('.p3cur').removeClass('p3cur');
+            $('.show img').attr('src', $('.show img').attr('data-s'));
+        } else if(index == 2) {
+            $.ajax({
+                url: 'n/merge',
+                type: 'POST',
+                data: {
+                    face1: $('.show img').attr('data-s'),
+                    face2: $('.list .cur img').attr('src'),
+                    useBrow: $('.position .p1').hasClass('p1cur')? 1: 0,
+                    useEve: $('.position .p2').hasClass('p2cur')? 1: 0,
+                    useMouth: $('.position .p3').hasClass('p3cur')? 1: 0
+                },
+                success: function(json){
+                    alert(json.msg);
+                }
+            })
+        }
+    })
+    function checkSelected(){
+        if($('.list span.cur').length === 0) {
+            alert('请先选择一个明星哦');
+            return false;
+        }
+        return true;
+    }
     function getUrlParam(p, u) {
         var u = u || document.location.toString();
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -58,16 +133,28 @@ $(document).ready(function(){
     });
 
     $('#confirmBtn').on('click', function() {
-        $("#showEdit").fadeOut();
-
         var $image = $('#report > img');
         var dataURL = $image.cropper("getCroppedCanvas");
         var imgurl = dataURL.toDataURL("image/jpeg", 0.5);
-        var index = $(this).attr('data-index');
-
-        $('.img .sel').hide();
-        $('.img .show').show();
-        $('.img .show img').attr('src', imgurl);
+        $.ajax({
+            url:  'n/uploadpic',
+            type: "POST",
+            data: {
+                filename: imgurl 
+            },
+            success: function(json){
+                if(json.errCode != 0) {
+                    alert(json.msg);
+                } else {
+                    $("#showEdit").fadeOut();
+                    $('.img .sel').hide();
+                    $('.img .show').show();
+                    $('.img .show img').attr('src', json.result);
+                    $('.img .show img').attr('data-s', json.result);
+                    $('.btn span').addClass('enable');
+                }
+            }
+        })
     });
 
     function cutImg(type) {
@@ -129,5 +216,6 @@ $(document).ready(function(){
         $('.img .sel').show();
         $('.img .show').hide();
         $('.img .show img').attr('src', '');
+        $('.btn span').removeClass('enable');
     })
 })
