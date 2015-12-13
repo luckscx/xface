@@ -26,6 +26,8 @@
 .img-itema {
     position: absolute;
     background: url('../images/list/kuang-16.png') no-repeat;
+    background-size: 2em 2em;
+    border-radius: 0.5em;
     width: 2em;
     height: 2em;
     top: -1.5em;
@@ -33,6 +35,8 @@
 }
 .img-item .cur{
     background: url('../images/list/select.png') no-repeat;
+    background-size: 2em 2em;
+    border-radius: 0.5em;
 }
 .btn {
     position: fixed;
