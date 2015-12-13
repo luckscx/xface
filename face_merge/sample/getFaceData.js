@@ -18,96 +18,6 @@ var userid = 'claude';
 
 conf.setAppInfo(appid, secretId, secretKey, userid, 1);
 
-var faceObjectArray = {};
-
-//src转成target的大小
-var _resizeOrgan = function(src,target){
-    var imageSrc = images(src);
-    var imageTarget = images(target);
-    imageSrc.resize(imageTarget.width(),imageTarget.height());
-    return imageSrc;
-}
-
-var _getOrgans = function(imgPath,cb){
-    console.log("getOrgans "+imgPath);
-    var organArr = ['left_eye','right_eye','left_eyebrow','right_eyebrow','mouth','nose'];
-    var name = new String(imgPath).substring(imgPath.lastIndexOf('/') + 1,imgPath.lastIndexOf('.')); 
-    var suffix = new String(imgPath).substring(imgPath.lastIndexOf('.')); 
-    var path = new String(imgPath).substring(0,imgPath.lastIndexOf('/')); 
-    var dstPath = path+'/'+name+'_res'+'/';
-    if(!fs.existsSync(dstPath)){
-        fs.mkdirSync(dstPath);
-    }
-    youtu.faceshape(imgPath,1,function(res){
-        if(res.data.errorcode != 0){
-            cb(res.data.errormsg);
-            return;
-        }
-        var faceObject = res.data.face_shape[0];
-        faceObjectArray[name] = faceObject;
-        async.eachSeries(organArr,function(organ,callback){
-            _getPartofFace(res,imgPath,dstPath,suffix,organ,callback);
-        },function(err){
-            cb(err);
-        });
-    });
-}
-
-// 人脸比对 测试
-//youtu.facecompare('a.jpg', 'a.jpg', function(data){
-//    console.log("facecompare:" + JSON.stringify(data));
-//});
-
-// 人脸比对 测试
-//youtu.fuzzydetect('a.jpg', function(data){
-//    console.log("fuzzydetect:" + JSON.stringify(data));
-//});
-
-//youtu.fooddetect('a.jpg', function(data){
-//    console.log("fooddetect:" + JSON.stringify(data));
-//});
-
-//youtu.imagetag('a.jpg', function(data){
-//    console.log("imagetag:" + JSON.stringify(data));
-//});
-/*
-var rect;
-    youtu.faceshape('./test_data/SCUT-FBP-4.jpg',1,function(res){
-        if(res.data.errorcode != 0){
-            cb(res.data.errormsg);
-            return;
-        }
-        var obj = res.data.face_shape[0].left_eye;
-        console.log(obj);
-        rect = _getRect(obj);
-        console.log(rect);
-        var base = images('./test_data/SCUT-FBP-4.jpg');
-        var left_eye_self = images('./test_data/SCUT-FBP-4_res/left_eye.jpg');
-        var left_eye_other = images('./test_data/SCUT-FBP-22_res/left_eye.jpg');
-        left_eye_other.resize(left_eye_self.width(),left_eye_self.height());
-        base.draw(left_eye_other,rect.x,rect.y);
-        
-        obj = res.data.face_shape[0].nose;
-        console.log(obj);
-        rect = _getRect(obj);
-        console.log(rect);
-        var nose_self= images('./test_data/SCUT-FBP-4_res/nose.jpg');
-        var nose_other= images('./test_data/SCUT-FBP-22_res/nose.jpg');
-        nose_other.resize(nose_self.width(),nose_self.height());
-        base.draw(nose_other,rect.x,rect.y);
-
-        obj = res.data.face_shape[0].mouth;
-        console.log(obj);
-        rect = _getRect(obj);
-        console.log(rect);
-        var mouth_self= images('./test_data/SCUT-FBP-4_res/mouth.jpg');
-        var mouth_other= images('./test_data/SCUT-FBP-22_res/mouth.jpg');
-        mouth_other.resize(mouth_self.width(),mouth_self.height());
-        base.draw(mouth_other,rect.x,rect.y);
-        
-        base.save('./res.jpg',{quality:100});
-    });
-*/
 
 var _minAndMax = function(arr){
     var min = arr[0];
@@ -134,328 +44,56 @@ var _getRect = function(obj){
         y[i] = obj[i].y;
     }
     var tmp = _minAndMax(x);
-    minX = tmp.min;
-    maxX = tmp.max;
-    var tmp = _minAndMax(y);
-    minY = tmp.min;
-    maxY = tmp.max;
+    var minX = tmp.min;
+    var maxX = tmp.max;
+    tmp = _minAndMax(y);
+    var minY = tmp.min;
+    var maxY = tmp.max;
     var rect = {};
     rect.x = minX;
     rect.y = minY;
     rect.width = maxX - minX;
     rect.height = maxY - minY;
     return rect;
-}
-
-/*
-var getLeftEye = function(){
-    youtu.faceshape('SCUT-FBP-22.jpg',1,function(res){
-        //console.log(JSON.stringify(data));
-        var left_eye = res.data.face_shape[0].left_eye;
-        console.log(left_eye);
-        //var fdRead = fs.openSync('SCUT-FBP-22.jpg',"r");
-        //var fdWrite = fs.openSync('out.jpg',"w+");
-        //var length = 486*638;
-        var rect = _getRect(left_eye);
-        console.log(rect);
-        //var buffer = new Buffer(length);
-        //fs.readSync(fdRead,buffer,0,length,0);
-        //for(var i=0;i<left_eye.length;i++){
-        //    var point = left_eye[i];
-        //    console.log(buffer[point.x*point.y]);
-        //}
-        //fs.writeSync(fdWrite,buffer,0,length,0);
-        //fs.closeSync(fdRead);
-        //fs.closeSync(fdWrite);
-        easyimg.crop({
-            src:'SCUT-FBP-22.jpg', dst: 'left_eye.jpg',
-            width:res.data.image_width, height:res.data.image_height,
-            cropwidth:rect.width, cropheight:rect.height,
-            x:rect.x, y:rect.y,
-            gravity:'NorthWest'
-
-        }).then(
-            function (file) {
-                console.log(file);
-            },
-            function(err){
-                console.log(err);
-            }   
-        );
-    });
-}
-
-
-var getRightEye = function(){
-    youtu.faceshape('SCUT-FBP-22.jpg',1,function(res){
-        var right_eye = res.data.face_shape[0].right_eye;
-        console.log(right_eye);
-        var rect = _getRect(right_eye);
-        console.log(rect);
-        easyimg.crop({
-            src:'SCUT-FBP-22.jpg', dst: 'right_eye.jpg',
-            width:res.data.image_width, height:res.data.image_height,
-            cropwidth:rect.width, cropheight:rect.height,
-            x:rect.x, y:rect.y,
-            gravity:'NorthWest'
-
-        }).then(
-            function (file) {
-                console.log(file);
-            },
-            function(err){
-                console.log(err);
-            }   
-        );
-    });
-}
-
-var getNose = function(){
-    youtu.faceshape('SCUT-FBP-22_resize.jpg',1,function(res){
-        var nose = res.data.face_shape[0].nose;
-        console.log(nose);
-        var rect = _getRect(nose);
-        console.log(rect);
-        easyimg.crop({
-            src:'SCUT-FBP-22.jpg', dst: 'nose.jpg',
-            width:res.data.image_width, height:res.data.image_height,
-            cropwidth:rect.width, cropheight:rect.height,
-            x:rect.x, y:rect.y,
-            gravity:'NorthWest'
-
-        }).then(
-            function (file) {
-                console.log(file);
-            },
-            function(err){
-                console.log(err);
-            }   
-        );
-    });
-}
-*/
-
-var _getPartofFace = function(res,srcPath,dstPath,suffix,organ,cb){
-    console.log(organ);
-    var organData = res.data.face_shape[0][organ];
-    //console.log(organData);
-    var rect = _getRect(organData);
-    //console.log(rect);
-    easyimg.crop({
-        src:srcPath, dst: dstPath+organ+suffix,
-        width:res.data.image_width, height:res.data.image_height,
-        cropwidth:rect.width, cropheight:rect.height,
-        x:rect.x, y:rect.y,
-        gravity:'NorthWest'
-
-    }).then(
-        function (file) {
-            //console.log(file);
-            cb();
-        },
-        function(err){
-            cb(err);
-        }   
-    );
-}
-
-
-var _processOneFace = function(face,cb){
-    if(!fs.existsSync(face)){
-        cb(face+" is not exists!");
-    }
-    _getOrgans(face,cb);
-}
-
-var _processFace = function(faceArray,cb){
-    faceObjectArray = {};
-    async.eachSeries(faceArray,function(face,callback){
-        _processOneFace(face,callback);
-    },function(err){
-        cb(err);
-    });
-}
-
-
-var composition = function(faceArray,savePath,method,cb){
-    var name = [];
-    var suffix = [];
-    var path = [];
-
-    for(var i=0;i<faceArray.length;i++){
-        name.push(new String(faceArray[i]).substring(faceArray[i].lastIndexOf('/') + 1,faceArray[i].lastIndexOf('.'))); 
-        suffix.push(new String(faceArray[i]).substring(faceArray[i].lastIndexOf('.'))); 
-        path.push(new String(faceArray[i]).substring(0,faceArray[i].lastIndexOf('/'))); 
-    }
-    
-    var base,selfIndex;
-    
-    selfIndex = method.base;
-    base = images(faceArray[method.base]);
-    
-    for(organ in method){
-        var selfOrgan,otherOrgan;
-        if(organ === 'base' || organ.length === 0 || method[organ] === selfIndex){
-            continue;
-        }        
-        var otherIndex = method[organ];
-        var selfPath = path[selfIndex]+'/'+name[selfIndex]+'_res/'+organ+suffix[selfIndex];
-        var otherPath = path[otherIndex]+'/'+name[otherIndex]+'_res/'+organ+suffix[otherIndex];
-        if(!fs.existsSync(selfPath)){
-            cb(selfPath+" is not exists!");
-            return;
-        } 
-        if(!fs.existsSync(otherPath)){
-            cb(otherPath+" is not exists!");
-            return;
-        }
-        var rect =  _getRect(faceObjectArray[name[selfIndex]][organ]);
-        var selfOrgan = images(selfPath);
-        var otherOrgan = images(otherPath);
-        otherOrgan.resize(selfOrgan.width(),selfOrgan.height());
-        base.draw(otherOrgan,rect.x,rect.y);
-    }
-    base.save(savePath,{quality:100});
-    cb();
-}
-
-var getFaceScore = function(imgPath,cb){
-    youtu.detectface(imgPath,1,function(res){
-        console.log(res.data.face);
-    });    
 };
 
-var _getFaceShape = function(face,dataArray,cb){
-    youtu.faceshape(face,1,function(res){
-        if(res.data.errorcode != 0){
-            cb(res.data.errormsg);
-            return;
-        }
-        var faceObject = res.data;
-        dataArray[face] = faceObject;
-        cb();
-    });
-}
-
-var _joint = function(face0,face1,dataArray,cb){
-    async.waterfall([
-        function(callback){
-            easyimg.crop({
-                src:face0, dst: 'half1.jpg',
-                width:dataArray[face0].image_width, height:dataArray[face0].image_height,
-                cropwidth:dataArray[face0].face_shape[0].nose[0].x, cropheight:dataArray[face0].image_height,
-                x:0, y:0,
-                gravity:'NorthWest'
-
-            }).then(
-                function (file) {
-                    callback();
-                },
-                function(err){
-                    callback(err);
-                }   
-            );
-
-        },
-        function(callback){
-            var base = images(face1);
-            var halfFace = images('half.jpg'); 
-            halfFace.resize(dataArray[face1].face_shape[0].nose[0].x,dataArray[face1].image_height);
-            base.draw(halfFace,0,0);
-            base.save('./res.jpg',{quality:100});
-            callback();
-        }
-
-    ],function(err){
-        cb(err);
-    })
-
-}
-
-var halfFaceJoint = function(face0,face1,cb){
-    var dataArray = {};
-    async.waterfall([
-        function(callback){
-            _getFaceShape(face0,dataArray,callback);
-        },
-        function(callback){
-            _getFaceShape(face1,dataArray,callback);
-        },
-        function(callback){
-            _joint(face0,face1,dataArray,callback);
-        }
-    ],function(err){
-        if(err){
-            console.log(err);
-        }
-        else{
-            console.log('success');
-        }
-    });
-}
-
-var globalFaceArray = ['./test_data/SCUT-FBP-22.jpg','./test_data/SCUT-FBP-4.jpg'];
-
-var globalMethod = {
-    base:0,
-    left_eyebrow:1,
-    right_eyebrow:1,
-    left_eye:0,
-    right_eye:0,
-    mouth:1,
-    nose:1
-};
-
-var main = function(){
-    async.waterfall([
-        function(callback){
-            _processFace(globalFaceArray,callback);
-        },
-        function(callback){
-            console.log('start composition');
-            composition(globalFaceArray,'./composition.jpg',globalMethod,callback);
-        }
-    ],function(err){
-        if(err){
-            console.log(err);
-        }
-        else{
-            console.log('success');
-        }
-    });
-}
 
 var getStandard = function(organData){
-    return organData.face_profile[10].y - organData.left_eyebrow[2].y;
-}
+    var obj = {};
+    obj.height = organData.face_profile[10].y - organData.left_eyebrow[2].y;
+    obj.width = organData.face_profile[20].x - organData.face_profile[0].x;
+    return obj;
+};
 
-var getEyeData = function(organData,out){
-    out.eye_weizhi = organData.left_eye[6].y - organData.left_eyebrow[2].y;
-    out.eye_jianju = organData.right_eye[4].x - organData.left_eye[4].x;
-    out.eye_Kaihe = organData.left_eye[2].y - organData.left_eye[6].y;
-}
+var getEyeData = function(organData,standard,out){
+    out.eye_weizhi = (organData.left_eye[6].y - organData.left_eyebrow[2].y)/standard.height;
+    out.eye_jianju = (organData.right_eye[4].x - organData.left_eye[4].x)/standard.width;
+    out.eye_kaihe = (organData.left_eye[2].y - organData.left_eye[6].y)/standard.height;
+};
 
-var getMouthData = function(organData,detectData,out){
-    out.mouth_daxiao = organData.mouth[6].x - organData.mouth[0].x;
-    out.mouth_weizhi = organData.mouth[9].y - organData.left_eyebrow[2].y;
-    out.mouth_xiao = detectData[0].expression; //0-100
-} 
+var getMouthData = function(organData,detectData,standard,out){
+    out.gender = detectData[0].gender>50?1:2;
+    out.mouth_daxiao = (organData.mouth[6].x - organData.mouth[0].x)/standard.width;
+    out.mouth_weizhi = (organData.mouth[9].y - organData.left_eyebrow[2].y)/standard.height;
+    out.mouth_xiao = detectData[0].expression/100; //0-100
+}; 
 
-var getNoseData = function(organData,out){
-    out.nose_kuandu = organData.nose[9].x - organData.nose[5].x;
-    out.nose_gaodu = organData.nose[0].y - organData.left_eyebrow[2].y;
-}
+var getNoseData = function(organData,standard,out){
+    out.nose_kuandu = (organData.nose[9].x - organData.nose[5].x)/standard.width;
+    out.nose_gaodu = (organData.nose[0].y - organData.left_eyebrow[2].y)/standard.height;
+};
 
-var getCheekData = function(organData,out){
-    out.cheek_fengman = organData.face_profile[16].x - organData.face_profile[4].x;
-    out.xiaba_kuandu = organData.face_profile[15].x - organData.face_profile[5].x;
-    out.xiaba_weizhi = organData.face_profile[10].y - organData.left_eyebrow[2].y;
-    out.xiaba_jiankuandu = organData.face_profile[13].x - organData.face_profile[7].x;
-}
+var getCheekData = function(organData,standard,out){
+    out.cheek_fengman = (organData.face_profile[16].x - organData.face_profile[4].x)/standard.width;
+    out.xiaba_kuandu = (organData.face_profile[15].x - organData.face_profile[5].x)/standard.width;
+    out.xiaba_weizhi = (organData.face_profile[10].y - organData.left_eyebrow[2].y)/standard.height;
+    out.xiaba_jiankuandu = (organData.face_profile[13].x - organData.face_profile[7].x)/standard.width;
+};
 
 var getFaceData = function(imgPath,out,cb){
     var organData;
     var detectData;
+    var standard = {};
     async.waterfall([
         function(callback){
             youtu.faceshape(imgPath,1,function(res){
@@ -466,6 +104,7 @@ var getFaceData = function(imgPath,out,cb){
                 }
                 else{
                     organData = res.data.face_shape[0];
+                    standard = getStandard(organData);
                     callback();
                 }
             });
@@ -485,10 +124,10 @@ var getFaceData = function(imgPath,out,cb){
         },
         function(callback){
             console.log('get data');
-            getEyeData(organData,out);
-            getMouthData(organData,detectData,out);
-            getNoseData(organData,out);
-            getCheekData(organData,out);
+            getEyeData(organData,standard,out);
+            getMouthData(organData,detectData,standard,out);
+            getNoseData(organData,standard,out);
+            getCheekData(organData,standard,out);
             callback();
         }
         
@@ -500,25 +139,114 @@ var getFaceData = function(imgPath,out,cb){
             cb();
         }
     });
+};
+
+var replaceFactor = function(srcFile,dstFile,keyArr,valueArr){
+    var content = fs.readFileSync(srcFile,'utf8');
+    console.log(content);
+    for(var x in keyArr){
+        var tmp = content.indexOf(keyArr[x]+'"]=');
+        var begin = content.indexOf('=',tmp);
+        var end = content.indexOf(',',begin);
+        var value = content.substr(begin+1,end-begin-1);
+        console.log("aaaaaaaaaaaaa");
+        console.log(x);
+        console.log('["'+keyArr[x]+'"]='+value);
+        console.log('["'+keyArr[x]+'"]='+valueArr[x]);
+        content = content.replace('["'+keyArr[x]+'"]='+value,'["'+keyArr[x]+'"]='+valueArr[x]);
+    }
+    fs.writeFileSync(dstFile,content);
 }
 
-if(require.main === module){
-    //main();
-    //getFaceScore('./test_data/SCUT-FBP-4.jpg',1);
-    //halfFaceJoint('./test_data/SCUT-FBP-4.jpg','./test_data/SCUT-FBP-22.jpg');
+var globalFactor = {
+    'eye_weizhi':100/(11),
+    'eye_jianju':(18*100)/(25),
+    'eye_kaihe':(28*100)/(10),
+    'mouth_daxiao':(82*100)/(39),
+    'mouth_weizhi':(7*100)/(64),
+    'mouth_xiao':(71*100)/(10),
+    'nose_kuandu':(199*100)/(25),
+    'nose_gaodu':(94*100)/(42),
+    'cheek_fengman':(76*100)/(85),
+    'xiaba_kuandu':(139*100)/(75),
+    'xiaba_weizhi':65,
+    'xiaba_jiankuandu':(31*100)/(50),
+    'gender':1
+};
+
+var minFactor = {
+    'eye_weizhi':-54,
+    'eye_jianju':-17,
+    'eye_kaihe':-16,
+    'mouth_daxiao':-65,
+    'mouth_weizhi':-10,
+    'mouth_xiao':-54,
+    'nose_kuandu':-124,
+    'nose_gaodu':-92,
+    'cheek_fengman':-72,
+    'xiaba_kuandu':-74,
+    'xiaba_weizhi':-128,
+    'xiaba_jiankuandu':-29,
+    'gender':0
+};
+
+var maxFactor = {
+    'eye_weizhi':11,
+    'eye_jianju':21,
+    'eye_kaihe':44,
+    'mouth_daxiao':27,
+    'mouth_weizhi':59,
+    'mouth_xiao':23,
+    'nose_kuandu':91,
+    'nose_gaodu':46,
+    'cheek_fengman':25,
+    'xiaba_kuandu':125,
+    'xiaba_weizhi':93,
+    'xiaba_jiankuandu':84,
+    'gender':100
+};
+
+var datFactor = {
+    'eye_weizhi':'EYE_POS',
+    'eye_jianju':'EYE_DIST',
+    'eye_kaihe':'EYE_OPEN',
+    'mouth_daxiao':'MOUTH_SIZE',
+    'mouth_weizhi':'MOUTH_POS',
+    'mouth_xiao':'MOUTH_END',
+    'nose_kuandu':'NOSE_SIZE',
+    'nose_gaodu':'NOSETOP_POS_Y',
+    'cheek_fengman':'FACE_SCALE',
+    'xiaba_kuandu':'JAW_WIDTH',
+    'xiaba_weizhi':'JAW_POS',
+    'xiaba_jiankuandu':'JAW_END',
+    'gender':'nRoleType'
+};
+
+var generateDat = function(imgPath,srcDatPath,dstDatPath,cb){
     var out = {};
-    getFaceData('./test_data/SCUT-FBP-4.jpg',out,function(err){
+    getFaceData(imgPath,out,function(err){
         if(err){
             console.log(err);
         }         
         else{
-            for(key in out){
-                out[key] /= out.xiaba_weizhi;
+            for(var x in out){
+                out[x] = minFactor[x]+Math.round(out[x]*globalFactor[x]);
+                out[x] = Math.min(maxFactor[x],out[x]);
+                out[x] = Math.max(minFactor[x],out[x]);
             }
-            console.log(out);
-            fd = fs.openSync('res.dat',"w");
-            fs.writeSync(fd,JSON.stringify(out));
-            fs.closeSync(fd);
+            replaceFactor(srcDatPath,dstDatPath,datFactor,out);
+        }
+        cb(err);
+    });
+};
+
+if(require.main === module){
+    generateDat('./test_data/SCUT-FBP-4.jpg','./test_data/src.dat','res.dat',function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('finish');
         }
     });
 }
