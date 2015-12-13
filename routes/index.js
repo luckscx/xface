@@ -9,6 +9,7 @@ var mail = require('../interface/mail.js');
 var imgfile = require('../interface/imgfile.js');
 //var niubiFace = require('../face_merge/sample/faceProcessor.js');
 var niubiFace = require('../face_merge/sample/faceProcessor.js');
+var getFaceData = require('../face_merge/sample/getFaceData.js');
 var msg = require('../interface/msg');
 
 /* GET home page. */
@@ -17,6 +18,7 @@ router.get('/', function(req, res) {
 });
 
 
+//上传图片
 router.post('/n/uploadpic', function(req, res) {
     console.log('get pic upload req');
     var data = req.body.filename;
@@ -47,10 +49,14 @@ router.post('/n/uploadpic', function(req, res) {
 });
 
 
+//图像融合
 router.post('/n/merge',function(req,res) {
+    console.log(req.body);
     var face1 = req.body.face1;
     var face2 = req.body.face2;
-    console.log(req.body);
+    var useBrow = + req.body.useBrow;
+    var useEye = + req.body.useEye;
+    var useMouth = + req.body.useMouth;
 
     if (!face1 || !face2) {
         res.end('need params');
@@ -60,47 +66,65 @@ router.post('/n/merge',function(req,res) {
     face1 = imgfile.fullname(face1);
     face2 = imgfile.fullname(face2);
 
-    var choose = req.body.choose;
-
-    choose = {
+    var chooseRes = {
         base:0,
-        left_eyebrow:1,
-        right_eyebrow:1,
-        left_eye:1,
-        right_eye:1,
-        mouth:1,
-        nose:1
+        left_eyebrow:0,
+        right_eyebrow:0,
+        left_eye:0,
+        right_eye:0,
+        mouth:0,
+        nose:0
     };
+
+    if (useBrow === 1) {
+        chooseRes.left_eyebrow = 1;
+        chooseRes.right_eyebrow = 1;
+    }
+
+    if (useEye === 1) {
+        chooseRes.left_eye = 1;
+        chooseRes.right_eye = 1;
+    }
+
+    if (useMouth === 1) {
+        chooseRes.mouth = 1;
+    }
+
+    console.log(chooseRes);
 
     imgfile.newFile(function(err,fileName) {
         console.log(fileName);
-        niubiFace.mergeFace([face1,face2],choose,fileName,function(err) {
+        niubiFace.mergeFace([face1,face2],chooseRes,fileName,function(err) {
+            var frontName = '';
             if (!err) {
-                var frontName = imgfile.getName(fileName);
-                console.log(frontName);
-                res.send(frontName);
+                frontName = imgfile.getName(fileName);
+                msg.wrapper(err,frontName,res);
             }else{
-                res.send(err);
+                msg.wrapper(2,frontName,res);
             }
-            res.end();
         });
     });
 });
 
 
+//进行3d捏脸
 router.post('/n/do',function(req,res) {
-    var filename = req.body.picfile; 
-    var address = req.body.mailAddress;
+    var filename = req.body.filename; 
+    var address = req.body.mailAddress || 'pancheng@tencent.com' ;
+    if (!filename) {
+        msg.wrapper(73,null,res);
+        return;
+    }
 
+    var fullname = imgfile.fullname(filename);
+    var distFile = imgfile.fullname(filename) + '.dat';
 
+    getFaceData(fullname,distFile,function(err) {
+        mail(null,distFile);
+        console.log(distFile);
+        msg.wrapper(err,null,res);
+    });
 
-
-    //call claude function 
-    //get dat file name
-    mail(address,filename);
-    res.send('ok');
-    res.end();
-    
 });
 
 module.exports = router;
