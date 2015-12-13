@@ -4,7 +4,9 @@
     <title>XFACE</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1">
-    <link rel="stylesheet" href="../css/fchose.css"/>
+    <link rel="stylesheet" href="css/fchose.css"/>
+    <link rel="stylesheet" href="css/popdialog.css">
+    <link rel="stylesheet" href="css/pop.css"/>
     <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
 </head>
 <body>
@@ -19,17 +21,36 @@
         <span>捏我的脸</span>
     </div>
 </div>
+<div class="popBox" id = "confirm" style="display: none">
+    <div class="bg">
+        <div class="inputbox">
+            <input type="text" placeholder="用户名"/>
+            <input type="text" placeholder="密码"/>
+        </div>
+        <div class="btn">
+            <span class="lgn">登录</span>
+            <span class="reg">注册</span>
+        </div>
+    </div>
+</div>
+
 </body>
-    <script>
-        $(document).ready(function(){
-            setTimeout(function(){
-                $('#list_btn').click(function(){
+<script type="text/javascript">
+$(document).ready(function(){
+    var bShowLogin = true;
+    setTimeout(function(){
+         $('#list_btn').click(function(){
+            if(bShowLogin) {
+                $('#confirm').show();
+                $('.lgn').click(function(){
                     location.href = '/list.html';
                 });
-                $('#pic_btn').click(function(){
-                    location.href = '/mypicture.html';
-                });
-            },500);
-        })
-    </script>
+            }
+          });
+          $('#pic_btn').click(function(){
+             location.href = '/mypicture.html';
+          });
+     },500);
+});
+</script>
 </html>

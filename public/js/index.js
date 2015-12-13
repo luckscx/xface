@@ -1,7 +1,6 @@
 $(document).ready(function(){
-    $('body').tap(function(){
+    $('body').click(function(){
         location.href = '/fchose.html';
     });
 });
 
-$.mobile.loadingMessage = false;
