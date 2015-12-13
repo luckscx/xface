@@ -15,9 +15,9 @@ $(document).ready(function(){
             success: function(json){
                 if(json.errCode != 0) {
                     //alert(json.msg);
-                    showResult(1, 2);
+                    showResult(1, 2, 1);
                 } else {
-                    showResult(1, 1);
+                    showResult(1, 1, 1);
                     //alert("上传成功");
                 }
             }
@@ -150,9 +150,9 @@ $(document).ready(function(){
             success: function(json){
                 if(json.errCode != 0) {
                     //alert(json.msg);
-                    showResult(1, 2);
+                    showResult(1, 2, 2);
                 } else {
-                    showResult(1, 1);
+                    showResult(1, 1, 2);
                     //alert("上传成功");
                 }
             }
@@ -294,11 +294,16 @@ $(document).ready(function(){
         $('.transfer').hide();
         return false;
     })
-    function showResult(tType, type){
+    function showResult(tType, type, flag){
         var url = location.href;
         if(type == 1) {
             url = 'fchose.html';
         }
-        location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
+        if(flag == 1) {
+            location.href = "preimportsucmine.html";
+        } else {
+            location.href = "preimportsucminec.html";
+        }
+        //location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
     }
 })
