@@ -11,7 +11,8 @@
 .inputbox {
     position: absolute;
     margin: 0 auto;
-    margin-top: 5em;
+    margin-top: 25%;
+    width: 100%;
 }
 .inputbox input {
     border-radius: 0.5em;
@@ -28,7 +29,7 @@
 .btn {
     position: absolute;
     margin: 0 auto;
-    margin-top: 12em;
+    margin-top: 60%;
     width: 100%;
 }
 .btn span {
