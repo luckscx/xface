@@ -144,7 +144,7 @@ router.post('/n/merge',function(req,res) {
         niubiFace.mergeOrgan(organArray,face1,distName,function(err) {
             var frontName = '';
             if (!err) {
-                frontName = imgfile.getName(fileName);
+                frontName = imgfile.getName(distName);
                 msg.wrapper(err,frontName,res);
             }else{
                 msg.wrapper(2,frontName,res);
