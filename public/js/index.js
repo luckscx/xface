@@ -3,3 +3,5 @@ $(document).ready(function(){
         location.href = '/fchose.html';
     });
 });
+
+$.mobile.loadingMessage = false;
