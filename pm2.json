@@ -6,7 +6,7 @@
     "args"        : [],
     "max_restarts" : 3, // defaults to 15
     "watch"       : true,
-    "ignore_watch": ["public","node_modules"],
+    "ignore_watch": ["public","node_modules","redis",".git"],
     "node_args"   : "",
     "merge_logs"  : true,
     "error_file"  : "/data1/logs/app.error",

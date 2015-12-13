@@ -21,9 +21,11 @@ $(document).ready(function(){
             },
             success: function(json){
                 if(json.errCode != 0) {
-                    alert(json.msg);
+                    //alert(json.msg);
+                    showResult(2, 2);
                 } else {
-                    alert('success');
+                    //alert('success');
+                    showResult(2, 1);
                 }
             }
         }); 
@@ -45,4 +47,11 @@ $(document).ready(function(){
             window.loadingOverlay.close();
         }
     });
+    function showResult(tType, type){
+        var url = location.href;
+        if(type == 1) {
+            url = 'index.html';
+        }
+        location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
+    }
 })

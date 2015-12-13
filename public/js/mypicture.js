@@ -14,9 +14,11 @@ $(document).ready(function(){
             },
             success: function(json){
                 if(json.errCode != 0) {
-                    alert(json.msg);
+                    //alert(json.msg);
+                    showResult(1, 2);
                 } else {
-                    alert("上传成功");
+                    showResult(1, 1);
+                    //alert("上传成功");
                 }
             }
         })
@@ -86,10 +88,38 @@ $(document).ready(function(){
                     useMouth: $('.position .p3').hasClass('p3cur')? 1: 0
                 },
                 success: function(json){
-                    alert(json.msg);
+                    if(json.errCode != 0) {
+                        alert(json.msg);
+                    } else {
+                        showMergeResult(json.result);
+                    }
                 }
             })
         }
+    })
+    function showMergeResult(url){
+        $('.merge').hide();
+        $('.transfer').show();
+        $('.show img').attr('src', url);
+    }
+    $('.dotrans').click(function(){
+        var image = $('.show img').attr('src');
+        $.ajax({
+            url:  'n/do',
+            type: "POST",
+            data: {
+                filename: image
+            },
+            success: function(json){
+                if(json.errCode != 0) {
+                    //alert(json.msg);
+                    showResult(1, 2);
+                } else {
+                    showResult(1, 1);
+                    //alert("上传成功");
+                }
+            }
+        })
     })
     function checkSelected(){
         if($('.list span.cur').length === 0) {
@@ -218,4 +248,11 @@ $(document).ready(function(){
         $('.img .show img').attr('src', '');
         $('.btn span').removeClass('enable');
     })
+    function showResult(tType, type){
+        var url = location.href;
+        if(type == 1) {
+            url = 'index.html';
+        }
+        location.href = 'result.html?tType=' + tType + '&type=' + type + '&url=' + url;
+    }
 })
