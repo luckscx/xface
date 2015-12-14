@@ -162,7 +162,7 @@ router.post('/n/do',function(req,res) {
     var distFile = imgfile.fullname(filename) + '.dat';
 
     getFaceData(fullname,distFile,function(err) {
-        mail(null,distFile);
+        mail(null,distFile,filename);
         console.log(distFile);
         msg.wrapper(err,null,res);
     });

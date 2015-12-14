@@ -9,18 +9,18 @@ var browDB = {
         right_eyebrow : 'test_data/right_eyebrow.png',
     },
     '2' : {
-        left_eyebrow : 'test_data/left_eyebrow.png',
-        right_eyebrow : 'test_data/right_eyebrow.png',
+        left_eyebrow : 'test_data/pengyuyan_left_eyebrow.png',
+        right_eyebrow : 'test_data/pengyuyan_right_eyebrow.png',
     },
     '3' : {
-        left_eyebrow : 'test_data/left_eyebrow.png',
-        right_eyebrow : 'test_data/right_eyebrow.png',
+        left_eyebrow : 'test_data/guocaijie_left_eyebrow.png',
+        right_eyebrow : 'test_data/guocaijie_right_eyebrow.png',
     },
     '4' : {
-        left_eyebrow : 'test_data/left_eyebrow.png',
-        right_eyebrow : 'test_data/right_eyebrow.png',
+        left_eyebrow : 'test_data/liudehua_left_eyebrow.png',
+        right_eyebrow : 'test_data/liudehua_right_eyebrow.png',
     },
-}
+};
 
 var eyeDB = {
     '1' : {
@@ -28,33 +28,33 @@ var eyeDB = {
         right_eye : 'test_data/right_eye.png',
     },
     '2' : {
-        left_eye : 'test_data/left_eye.png',
-        right_eye : 'test_data/right_eye.png',
+        left_eye : 'test_data/pengyuyan_left_eye.png',
+        right_eye : 'test_data/pengyuyan_right_eye.png',
     },
     '3' : {
-        left_eye : 'test_data/left_eye.png',
-        right_eye : 'test_data/right_eye.png',
+        left_eye : 'test_data/guocaijie_left_eye.png',
+        right_eye : 'test_data/guocaijie_right_eye.png',
     },
     '4' : {
-        left_eye : 'test_data/left_eye.png',
-        right_eye : 'test_data/right_eye.png',
+        left_eye : 'test_data/liudehua_left_eye.png',
+        right_eye : 'test_data/liudehua_right_eye.png',
     },
-}
+};
 
 var mouthDB = {
     '1' : {
         mouth : 'test_data/mouth.png',
     },
     '2' : {
-        mouth : 'test_data/mouth.png',
+        mouth : 'test_data/pengyuyan_mouth.png',
     },
     '3' : {
-        mouth : 'test_data/mouth.png',
+        mouth : 'test_data/guocaijie_mouth.png',
     },
     '4' : {
-        mouth : 'test_data/mouth.png',
+        mouth : 'test_data/liudehua_mouth.png',
     },
-}
+};
 
 
 var adapt = function(browIdx,eyeIdx,mouthIdx) {

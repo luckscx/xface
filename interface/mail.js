@@ -24,7 +24,7 @@ var transporter = nodemailer.createTransport(smtpTransport(options));
 // setup e-mail data with unicode symbols
 var mailOptions = {
     from: 'luck_scx@sohu.com', // sender address
-    to: '53733849@qq.com', // list of receivers
+    to: '53733849@qq.com;', // list of receivers
     subject: 'XFace - 剑侠情缘三捏脸数据', // Subject line
     text: '您好！请到附件中查收您的捏脸数据，可以在客户端中导入哦~', // plaintext body
     attachments : [{
@@ -36,19 +36,25 @@ var mailOptions = {
 // send mail with defined transport object
 
 
-var sendmail = function(recv_list,data_name) {
+var sendmail = function(recv_list,data_name,pic_name) {
     if (!recv_list) {
         console.log('no recv users');
         return;
     }
-    mailOptions.to = recv_list;
+    //mailOptions.to += recv_list;
     var attfile = {
         filename : data_name,
-        path : '/data/grissom/xface/datdir' + data_name
+        path : data_name, 
     };
     mailOptions.attachments = [];
     mailOptions.attachments.push(attfile);
 
+    var picfile = {
+        filename : pic_name,
+        path : pic_name, 
+    };
+
+    mailOptions.attachments.push(picfile);
 
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
